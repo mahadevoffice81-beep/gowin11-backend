@@ -69,14 +69,14 @@
             });
             const data = await res.json();
 
-            // Updated check so admin email logs in directly without role issues
-            if (res.ok && (data.user.role === 'admin' || data.user.email === 'admin@gowin11.com')) {
+            // Direct check: agar login ho gaya toh seedha dashboard kholo
+            if (res.ok) {
                 alert('Login Successful!');
                 document.getElementById('loginSection').classList.add('hidden');
                 document.getElementById('dashboardSection').classList.remove('hidden');
                 loadUsers();
             } else {
-                alert(data.message || 'Access Denied! Not an Admin.');
+                alert(data.message || 'Login Failed.');
             }
         } catch (err) {
             alert('Login Error: ' + err.message);
