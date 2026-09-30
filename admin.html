@@ -55,7 +55,8 @@
 </div>
 
 <script>
-    const BACKEND_URL = window.location.origin.includes('render') ? '' : 'https://gowin11-backend.onrender.com';
+    // Fixed Backend URL to prevent routing issues
+    const BACKEND_URL = 'https://gowin11-backend.onrender.com';
 
     async function adminLogin() {
         const email = document.getElementById('adminEmail').value;
