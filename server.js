@@ -2,14 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// YEH LINE HTML FILES KO LIVE KAREGI:
+// Yeh line aapke admin.html page ko live chalayegi
 app.use(express.static('.'));
 
+// MongoDB Connection
 const MONGO_URI = process.env.MONGO_URI;
 if (MONGO_URI) {
     mongoose.connect(MONGO_URI)
@@ -17,6 +19,7 @@ if (MONGO_URI) {
         .catch((err) => console.error('MongoDB Connection Error:', err));
 }
 
+// User Schema (With Role for Admin Control)
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
@@ -26,6 +29,7 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
+// Login API
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
@@ -41,6 +45,7 @@ app.post('/api/auth/login', async (req, res) => {
     }
 });
 
+// Admin: Get all users
 app.get('/api/admin/users', async (req, res) => {
     try {
         const users = await User.find({}, '-password');
@@ -50,6 +55,7 @@ app.get('/api/admin/users', async (req, res) => {
     }
 });
 
+// Admin: Update Wallet Balance
 app.post('/api/admin/update-wallet', async (req, res) => {
     try {
         const { userId, amount } = req.body;
