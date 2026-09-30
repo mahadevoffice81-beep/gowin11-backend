@@ -29,24 +29,28 @@ const userSchema = new mongoose.Schema({
 });
 const User = mongoose.model('User', userSchema);
 
-// Automatically Default Admin Create karne ke liye
+// Admin Account Create ya Fix karne ke liye
 const createAdmin = async () => {
     try {
-        const existingAdmin = await User.findOne({ email: 'admin@gowin11.com' });
-        if (!existingAdmin) {
-            const hashedPassword = await bcrypt.hash('123456', 10);
-            const newAdmin = new User({
+        let adminUser = await User.findOne({ email: 'admin@gowin11.com' });
+        const hashedPassword = await bcrypt.hash('123456', 10);
+        
+        if (!adminUser) {
+            adminUser = new User({
                 username: 'SuperAdmin',
                 email: 'admin@gowin11.com',
                 password: hashedPassword,
                 role: 'admin',
                 walletBalance: 0
             });
-            await newAdmin.save();
-            console.log('Default Admin Created: admin@gowin11.com / 123456');
+        } else {
+            adminUser.role = 'admin';
+            adminUser.password = hashedPassword;
         }
+        await adminUser.save();
+        console.log('Admin Account Ready: admin@gowin11.com / 123456');
     } catch (err) {
-        console.log('Error creating admin:', err);
+        console.log('Error updating admin:', err);
     }
 };
 
