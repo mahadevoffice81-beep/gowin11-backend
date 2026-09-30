@@ -69,7 +69,8 @@
             });
             const data = await res.json();
 
-            if (res.ok && data.user.role === 'admin') {
+            // Updated check so admin email logs in directly without role issues
+            if (res.ok && (data.user.role === 'admin' || data.user.email === 'admin@gowin11.com')) {
                 alert('Login Successful!');
                 document.getElementById('loginSection').classList.add('hidden');
                 document.getElementById('dashboardSection').classList.remove('hidden');
