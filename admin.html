@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoWin11 - Admin Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #0f172a; color: #fff; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: #1e293b; padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        h2 { text-align: center; color: #38bdf8; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #94a3b8; }
+        input, button { width: 100%; padding: 10px; border-radius: 5px; border: none; font-size: 16px; }
+        input { background: #334155; color: #fff; margin-bottom: 10px; }
+        button { background: #22c55e; color: #fff; font-weight: bold; cursor: pointer; }
+        button:hover { background: #16a34a; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; background: #334155; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #475569; }
+        th { background: #0284c7; }
+        .hidden { display: none; }
+        .action-btn { background: #f59e0b; padding: 5px 10px; font-size: 14px; width: auto; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>GoWin11 Admin Panel</h2>
+
+    <!-- LOGIN SECTION -->
+    <div id="loginSection">
+        <h3>Admin Login</h3>
+        <input type="email" id="adminEmail" placeholder="Admin Email">
+        <input type="password" id="adminPassword" placeholder="Password">
+        <button onclick="adminLogin()">Login to Dashboard</button>
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <div id="dashboardSection" class="hidden">
+        <h3>Registered Users Control</h3>
+        <button onclick="loadUsers()" style="background: #0284c7; margin-bottom: 15px;">Refresh Users List</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Wallet Balance</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="userTableBody">
+                <!-- Users will load here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    const BACKEND_URL = window.location.origin.includes('render') ? '' : 'https://gowin11-backend.onrender.com';
+
+    async function adminLogin() {
+        const email = document.getElementById('adminEmail').value;
+        const password = document.getElementById('adminPassword').value;
+
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+
+            if (res.ok && data.user.role === 'admin') {
+                alert('Login Successful!');
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboardSection').classList.remove('hidden');
+                loadUsers();
+            } else {
+                alert(data.message || 'Access Denied! Not an Admin.');
+            }
+        } catch (err) {
+            alert('Login Error: ' + err.message);
+        }
+    }
+
+    async function loadUsers() {
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/admin/users`);
+            const users = await res.json();
+            
+            const tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = '';
+
+            users.forEach(user => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>₹${user.walletBalance}</td>
+                        <td>
+                            <button class="action-btn" onclick="updateWallet('${user._id}')">Add/Deduct Money</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        } catch (err) {
+            alert('Error loading users: ' + err.message);
+        }
+    }
+
+    async function updateWallet(userId) {
+        const amount = prompt("Enter amount to add (use minus like -500 to deduct):");
+        if (amount === null) return;
+
+        try {
+            const res = await fetch(`${BACKEND_URL}/api/admin/update-wallet`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId, amount: Number(amount) })
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                alert(data.message);
+                loadUsers();
+            } else {
+                alert(data.message || 'Failed to update wallet');
+            }
+        } catch (err) {
+            alert('Error: ' + err.message);
+        }
+    }
+</script>
+
+</body>
+</html>
