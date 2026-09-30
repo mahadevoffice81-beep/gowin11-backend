@@ -67,9 +67,16 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password })
             });
-            const data = await res.json();
+            
+            const text = await res.text();
+            let data;
+            try {
+                data = JSON.parse(text);
+            } catch (e) {
+                alert('Server Response Error: ' + text);
+                return;
+            }
 
-            // Direct check: agar login ho gaya toh seedha dashboard kholo
             if (res.ok) {
                 alert('Login Successful!');
                 document.getElementById('loginSection').classList.add('hidden');
