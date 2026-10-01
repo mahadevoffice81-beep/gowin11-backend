@@ -9,9 +9,10 @@ app.use(cors());
 
 app.use(express.static('.'));
 
-const user = "mahadevoffice61_db_user";
-const pass = "jbVHNT4PKmoEu";
-const MONGO_URI = `mongodb+srv://${user}:${pass}@cluster0.p7uzd.mongodb.net/?retryWrites=true&w=majority`;
+const u = "mahadevoffice61_db_user";
+const p = "jbVHNT4PKmoEu";
+const h = "cluster0.p7uzd.mongodb.net";
+const MONGO_URI = "mongodb+srv://" + u + ":" + p + "@" + h + "/?retryWrites=true&w=majority";
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('MongoDB Connected Successfully!'))
