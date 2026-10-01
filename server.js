@@ -7,17 +7,14 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Serve static files
 app.use(express.static('.'));
 
-// MongoDB Connection with Error Handling (Directly connected)
 const MONGO_URI = "mongodb+srv://mahadevoffice61_db_user:jbVHNT4PKmoEu@cluster0.p7uzd.mongodb.net/?retryWrites=true&w=majority";
 
 mongoose.connect(MONGO_URI)
     .then(() => console.log('MongoDB Connected Successfully!'))
     .catch((err) => console.error('MongoDB Connection Error:', err));
 
-// User Schema
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true },
     password: { type: String, required: true }
