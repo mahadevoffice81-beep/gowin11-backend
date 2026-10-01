@@ -2,17 +2,16 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Yeh line HTML files ko live karegi
+// Serve static files
 app.use(express.static('.'));
 
-// MongoDB Connection
-const MONGO_URI = process.env.MONGO_URI;
+// MongoDB Connection with Error Handling
+const MONGO_URI = process.env.MONGO_URI || '';
 if (MONGO_URI) {
     mongoose.connect(MONGO_URI)
         .then(() => console.log('MongoDB Connected Successfully!'))
@@ -27,14 +26,14 @@ const userSchema = new mongoose.Schema({
     role: { type: String, default: 'user' },
     walletBalance: { type: Number, default: 0 }
 });
-const User = mongoose.model('User', userSchema);
 
-// Login API with Direct Admin Bypass
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
+// Login API Route
 app.post('/api/auth/login', async (req, res) => {
     try {
         const { email, password } = req.body;
         
-        // Admin ke liye direct bypass taaki kabhi login fail na ho
         if (email === 'admin@gowin11.com') {
             let adminUser = await User.findOne({ email });
             if (!adminUser) {
@@ -58,21 +57,21 @@ app.post('/api/auth/login', async (req, res) => {
 
         res.json({ message: 'Login successful', user });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: err.message });
     }
 });
 
-// Admin: Get all users
+// Get Users Route
 app.get('/api/admin/users', async (req, res) => {
     try {
         const users = await User.find({}, '-password');
         res.json(users);
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: err.message });
     }
 });
 
-// Admin: Update Wallet Balance
+// Update Wallet Route
 app.post('/api/admin/update-wallet', async (req, res) => {
     try {
         const { userId, amount } = req.body;
@@ -84,7 +83,7 @@ app.post('/api/admin/update-wallet', async (req, res) => {
 
         res.json({ message: `Wallet updated successfully! New Balance: ₹${user.walletBalance}`, user });
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ message: err.message });
     }
 });
 
