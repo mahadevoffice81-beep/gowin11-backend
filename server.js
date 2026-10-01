@@ -4,22 +4,21 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-app.use(express.json());
-
-const MONGO_URI = 'mongodb+srv://mahadevoffice81_db_user:123456@cluster0.twhcpfl.mongodb.net/?appName=Cluster0';
+// MongoDB Connection String with the new password
+const MONGO_URI = 'mongodb+srv://mahadevoffice81_db_user:4SAR3N7sitLuBoNn@cluster0.p7uzd.mongodb.net/?retryWrites=true&w=majority';
 
 mongoose.connect(MONGO_URI)
   .then(() => {
-    console.log('✅ Connected to MongoDB Atlas successfully!');
+    console.log('MongoDB Connected Successfully! 🚀');
   })
   .catch((err) => {
-    console.error('❌ MongoDB Connection Error:', err.message);
+    console.error('MongoDB Connection Error:', err);
   });
 
 app.get('/', (req, res) => {
-  res.send('Backend is running live on Render!');
+  res.send('Gowin11 Backend is running successfully! 🚀');
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });
