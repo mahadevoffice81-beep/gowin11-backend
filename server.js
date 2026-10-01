@@ -1,31 +1,25 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
-const bcrypt = require('bcryptjs');
 
 const app = express();
+const PORT = process.env.PORT || 10000;
+
 app.use(express.json());
-app.use(cors());
 
-app.use(express.static('.'));
-
-const u = "mahadevoffice61_db_user";
-const p = "jbVHNT4PKmoEu";
-const h = "cluster0.p7uzd.mongodb.net";
-const MONGO_URI = "mongodb+srv://" + u + ":" + p + "@" + h + "/?retryWrites=true&w=majority";
+const MONGO_URI = 'mongodb+srv://mahadevoffice81_db_user:123456@cluster0.twhcpfl.mongodb.net/?appName=Cluster0';
 
 mongoose.connect(MONGO_URI)
-    .then(() => console.log('MongoDB Connected Successfully!'))
-    .catch((err) => console.error('MongoDB Connection Error:', err));
+  .then(() => {
+    console.log('✅ Connected to MongoDB Atlas successfully!');
+  })
+  .catch((err) => {
+    console.error('❌ MongoDB Connection Error:', err.message);
+  });
 
-const userSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    password: { type: String, required: true }
+app.get('/', (req, res) => {
+  res.send('Backend is running live on Render!');
 });
 
-const User = mongoose.model('User', userSchema);
-
-const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT}`);
 });
