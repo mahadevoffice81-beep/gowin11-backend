@@ -2,19 +2,59 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content5="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gowin11 - Gaming Platform</title>
     <style>
         body { font-family: Arial, sans-serif; background: #0f172a; color: #fff; text-align: center; padding-top: 50px; }
         h1 { color: #22c55e; }
-        .card { background: #1e293b; padding: 20px; margin: 20px auto; width: 300px; border-radius: 8px; }
+        .card { background: #1e293b; padding: 20px; margin: 20px auto; width: 320px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; font-size: 16px; }
+        button { background: #22c55e; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; width: 95%; }
+        button:hover { background: #16a34a; }
+        #message { margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
-    <h1>Gowin11 User Website 🚀</h1>
+    <h1>Gowin11 🚀</h1>
     <div class="card">
-        <h3>Login / Register</h3>
-        <p>Mobile & OTP Authentication coming soon...</p>
+        <h3>User Login / Register</h3>
+        <input type="text" id="mobile" placeholder="Enter Mobile Number" />
+        <br>
+        <button onclick="handleLogin()">Login / Register</button>
+        <p id="message"></p>
     </div>
+
+    <script>
+        async function handleLogin() {
+            const mobile = document.getElementById('mobile').value;
+            const messageEl = document.getElementById('message');
+
+            if (!mobile) {
+                messageEl.style.color = '#ef4444';
+                messageEl.innerText = 'Please enter mobile number!';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobile })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    messageEl.style.color = '#22c55e';
+                    messageEl.innerText = `Success! Balance: ₹${data.user.balance}`;
+                } else {
+                    messageEl.style.color = '#ef4444';
+                    messageEl.innerText = data.error || 'Login failed';
+                }
+            } catch (err) {
+                messageEl.style.color = '#ef4444';
+                messageEl.innerText = 'Server error!';
+            }
+        }
+    </script>
 </body>
 </html>
