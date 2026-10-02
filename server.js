@@ -6,13 +6,10 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Connect to MongoDB
+// Clean MongoDB Connection
 const mongoURI = process.env.MONGO_URI;
 
-mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+mongoose.connect(mongoURI)
 .then(() => console.log('MongoDB Connected Successfully!'))
 .catch(err => console.error('MongoDB Connection Error:', err));
 
