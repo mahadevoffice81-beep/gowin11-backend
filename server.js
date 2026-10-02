@@ -3,49 +3,52 @@ const mongoose = require('mongoose');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
-// Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/admin', express.static(path.join(__dirname, 'admin')));
 
-// MongoDB Connection (Aapke Render environment variables se connect hoga)
-const MONGO_URI = process.env.MONGO_URI || "Aapka_MongoDB_Atlas_URL"; 
+// MongoDB Connection Options
+const mongoURI = process.env.MONGO_URI;
 
-mongoose.connect(MONGO_URI)
-  .then(() => console.log('MongoDB Connected Successfully! 🚀'))
-  .catch(err => console.log('MongoDB Connection Error: ', err));
+mongoose.connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000
+})
+.then(() => console.log('MongoDB Connected Successfully!'))
+.catch(err => console.error('MongoDB Connection Error:', err));
 
-// Simple User Schema for Login/Registration
+// User Schema & Model
 const userSchema = new mongoose.Schema({
     mobile: { type: String, required: true, unique: true },
-    balance: { type: Number, default: 0 },
-    createdAt: { type: Date, default: Date.now }
+    balance: { type: Number, default: 0 }
 });
-
 const User = mongoose.model('User', userSchema);
 
-// Register / Login API Route
+// Login / Register Endpoint
 app.post('/api/login', async (req, res) => {
     try {
+        if (mongoose.connection.readyState !== 1) {
+            return res.status(503).json({ success: false, error: 'Database connecting, please retry in 5 seconds...' });
+        }
+
         const { mobile } = req.body;
-        if (!mobile) return res.status(400).json({ error: 'Mobile number is required' });
+        if (!mobile) {
+            return res.status(400).json({ success: false, error: 'Mobile number is required' });
+        }
 
         let user = await User.findOne({ mobile });
         if (!user) {
-            user = new User({ mobile, balance: 100 }); // Free bonus on signup
-            await user.save();
+            user = await User.create({ mobile, balance: 100 }); // Default bonus balance
         }
-        res.json({ success: true, message: 'Login successful', user });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+
+        res.json({ success: true, user });
+    } catch (err) {
+        console.error('Login error:', err);
+        res.status(500).json({ success: false, error: err.message });
     }
 });
 
+const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
