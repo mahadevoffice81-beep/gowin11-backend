@@ -6,13 +6,12 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// MongoDB Connection Options
+// Connect to MongoDB
 const mongoURI = process.env.MONGO_URI;
 
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 5000
+    useUnifiedTopology: true
 })
 .then(() => console.log('MongoDB Connected Successfully!'))
 .catch(err => console.error('MongoDB Connection Error:', err));
@@ -27,10 +26,6 @@ const User = mongoose.model('User', userSchema);
 // Login / Register Endpoint
 app.post('/api/login', async (req, res) => {
     try {
-        if (mongoose.connection.readyState !== 1) {
-            return res.status(503).json({ success: false, error: 'Database connecting, please retry in 5 seconds...' });
-        }
-
         const { mobile } = req.body;
         if (!mobile) {
             return res.status(400).json({ success: false, error: 'Mobile number is required' });
@@ -38,7 +33,7 @@ app.post('/api/login', async (req, res) => {
 
         let user = await User.findOne({ mobile });
         if (!user) {
-            user = await User.create({ mobile, balance: 100 }); // Default bonus balance
+            user = await User.create({ mobile, balance: 100 });
         }
 
         res.json({ success: true, user });
