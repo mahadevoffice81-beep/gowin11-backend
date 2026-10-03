@@ -318,7 +318,7 @@
         <div class="menu-item-row">
           <div class="menu-item-left"><span class="material-icons" style="font-size:18px; color:#a1a1aa;">volume_up</span> Sound</div>
           <label class="switch-toggle">
-            <input type="checkbox" id="soundToggle" checked>
+            <input type="checkbox" id="soundToggle" checked onchange="toggleSoundSetting()">
             <span class="slider-round"></span>
           </label>
         </div>
@@ -326,7 +326,7 @@
         <div class="menu-item-row">
           <div class="menu-item-left"><span class="material-icons" style="font-size:18px; color:#a1a1aa;">music_note</span> Music</div>
           <label class="switch-toggle">
-            <input type="checkbox" id="musicToggle" checked>
+            <input type="checkbox" id="musicToggle" checked onchange="toggleMusicSetting()">
             <span class="slider-round"></span>
           </label>
         </div>
@@ -382,7 +382,7 @@
         <span class="pill pill-blue">1.25x</span>
         <span class="pill pill-purple">10.48x</span>
         <span class="pill pill-blue">1.15x</span>
-        <span class="pill pill-blue">1.56x</span>
+        <span class="pill pill-purple">1.56x</span>
       </div>
       <button class="btn-hist-toggle" onclick="toggleHistoryModal()"><span class="material-icons" style="font-size:14px;">history</span></button>
     </div>
@@ -619,17 +619,150 @@
     let activeFakePlayers = [];
     let currentBetsTab = 'all';
 
+    /* AUDIO ENGINE (WEB AUDIO API SYNTHESIZER & REALTIME BGM) */
+    let audioCtx = null;
+    let bgmOsc1 = null, bgmOsc2 = null, bgmGain = null;
+    let isBgmPlaying = false;
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function toggleMusicSetting() {
+      let isMusic = document.getElementById('musicToggle').checked;
+      if (isMusic) {
+        if (gameState === 'FLYING') startBackgroundMusic();
+      } else {
+        stopBackgroundMusic();
+      }
+    }
+
+    function toggleSoundSetting() {
+      // Handled dynamically via soundToggle.checked
+    }
+
+    function playSoundEffect(type) {
+      if (!document.getElementById('soundToggle').checked) return;
+      try {
+        initAudioContext();
+        let now = audioCtx.currentTime;
+
+        if (type === 'click') {
+          let osc = audioCtx.createOscillator();
+          let gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(600, now);
+          osc.frequency.exponentialRampToValueAtTime(200, now + 0.05);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.05);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.05);
+        } 
+        else if (type === 'cashout') {
+          let osc = audioCtx.createOscillator();
+          let gain = audioCtx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(523.25, now); // C5
+          osc.frequency.setValueAtTime(659.25, now + 0.08); // E5
+          osc.frequency.setValueAtTime(783.99, now + 0.16); // G5
+          osc.frequency.setValueAtTime(1046.50, now + 0.24); // C6
+          gain.gain.setValueAtTime(0.25, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.4);
+        } 
+        else if (type === 'crash') {
+          let osc = audioCtx.createOscillator();
+          let gain = audioCtx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(300, now);
+          osc.frequency.exponentialRampToValueAtTime(40, now + 0.4);
+          gain.gain.setValueAtTime(0.3, now);
+          gain.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.4);
+        }
+      } catch (e) { console.log('Audio FX Error:', e); }
+    }
+
+    function startBackgroundMusic() {
+      if (!document.getElementById('musicToggle').checked) return;
+      if (isBgmPlaying) return;
+      try {
+        initAudioContext();
+        let now = audioCtx.currentTime;
+
+        bgmOsc1 = audioCtx.createOscillator();
+        bgmOsc2 = audioCtx.createOscillator();
+        bgmGain = audioCtx.createGain();
+
+        bgmOsc1.type = 'sine';
+        bgmOsc2.type = 'triangle';
+
+        bgmOsc1.frequency.setValueAtTime(110, now); // A2
+        bgmOsc2.frequency.setValueAtTime(164.81, now); // E3
+
+        bgmGain.gain.setValueAtTime(0.05, now);
+
+        bgmOsc1.connect(bgmGain);
+        bgmOsc2.connect(bgmGain);
+        bgmGain.connect(audioCtx.destination);
+
+        bgmOsc1.start(now);
+        bgmOsc2.start(now);
+        isBgmPlaying = true;
+      } catch(e) { console.log('BGM Start Error:', e); }
+    }
+
+    function updateBgmPitch(currentMult) {
+      if (isBgmPlaying && bgmOsc1 && bgmOsc2) {
+        let now = audioCtx.currentTime;
+        let baseFreq1 = 110 * (1 + (currentMult - 1) * 0.15);
+        let baseFreq2 = 164.81 * (1 + (currentMult - 1) * 0.15);
+        bgmOsc1.frequency.setTargetAtTime(Math.min(baseFreq1, 600), now, 0.1);
+        bgmOsc2.frequency.setTargetAtTime(Math.min(baseFreq2, 900), now, 0.1);
+      }
+    }
+
+    function stopBackgroundMusic() {
+      if (isBgmPlaying) {
+        try {
+          let now = audioCtx.currentTime;
+          if (bgmGain) bgmGain.gain.linearRampToValueAtTime(0.001, now + 0.1);
+          if (bgmOsc1) bgmOsc1.stop(now + 0.1);
+          if (bgmOsc2) bgmOsc2.stop(now + 0.1);
+        } catch(e){}
+        isBgmPlaying = false;
+        bgmOsc1 = null;
+        bgmOsc2 = null;
+        bgmGain = null;
+      }
+    }
+
     function updateBalanceUI() {
       document.getElementById('userBal').innerText = userBalance.toFixed(2);
       document.getElementById('aviatorBal').innerText = userBalance.toFixed(2);
     }
 
     function performLogin() {
+      playSoundEffect('click');
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('dashboardApp').style.display = 'block';
     }
 
     function openAviatorGame() {
+      playSoundEffect('click');
       document.getElementById('aviatorGameModal').style.display = 'flex';
       setTimeout(() => {
         resizeCanvas();
@@ -639,35 +772,43 @@
     }
 
     function closeAviatorGame() {
+      playSoundEffect('click');
+      stopBackgroundMusic();
       document.getElementById('aviatorGameModal').style.display = 'none';
       document.getElementById('menuDropdown').style.display = 'none';
     }
 
     function toggleMenuModal() {
+      playSoundEffect('click');
       let menu = document.getElementById('menuDropdown');
       menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
     }
 
     function openCustomModal(id) {
+      playSoundEffect('click');
       document.getElementById('menuDropdown').style.display = 'none';
       document.getElementById(id).style.display = 'flex';
     }
 
     function closeCustomModal(id) {
+      playSoundEffect('click');
       document.getElementById(id).style.display = 'none';
     }
 
     function chooseAvatar(icon) {
+      playSoundEffect('click');
       document.getElementById('userAvatarDisplay').innerText = icon;
       closeCustomModal('avatarModal');
     }
 
     function rotateSeeds() {
+      playSoundEffect('click');
       document.getElementById('clientSeedTxt').innerText = Math.random().toString(36).substring(2, 15);
       document.getElementById('serverSeedTxt').innerText = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 10);
     }
 
     function selectLang(lang) {
+      playSoundEffect('click');
       closeCustomModal('langModal');
     }
 
@@ -677,12 +818,14 @@
     }
 
     function switchBetMode(box, mode) {
+      playSoundEffect('click');
       document.getElementById(`tab${box}-bet`).classList.toggle('active', mode === 'bet');
       document.getElementById(`tab${box}-auto`).classList.toggle('active', mode === 'auto');
       document.getElementById(`autoRow${box}`).style.display = (mode === 'auto') ? 'flex' : 'none';
     }
 
     function adjAmt(box, delta) {
+      playSoundEffect('click');
       let inp = document.getElementById('amt' + box);
       let val = Math.max(10, parseFloat(inp.value) + delta);
       inp.value = val.toFixed(2);
@@ -693,6 +836,7 @@
     }
 
     function setAmt(box, val) {
+      playSoundEffect('click');
       document.getElementById('amt' + box).value = val.toFixed(2);
       if (box === 1) bet1Amt = val; else bet2Amt = val;
       if ((box === 1 && bet1State === 'IDLE') || (box === 2 && bet2State === 'IDLE')) {
@@ -701,6 +845,7 @@
     }
 
     function handleBetClick(box) {
+      playSoundEffect('click');
       let state = (box === 1) ? bet1State : bet2State;
       let amt = (box === 1) ? bet1Amt : bet2Amt;
       let btn = document.getElementById('betBtn' + box);
@@ -724,6 +869,7 @@
     }
 
     function executeCashout(box) {
+      playSoundEffect('cashout');
       let amt = (box === 1) ? bet1Amt : bet2Amt;
       let btn = document.getElementById('betBtn' + box);
       let sub = document.getElementById('subText' + box);
@@ -774,6 +920,7 @@
     }
 
     function switchBetsTab(tab) {
+      playSoundEffect('click');
       currentBetsTab = tab;
       document.getElementById('allBetsTabBtn').classList.toggle('active', tab === 'all');
       document.getElementById('myBetsTabBtn').classList.toggle('active', tab === 'my');
@@ -872,6 +1019,7 @@
       multiplier = 1.00;
       crashPoint = (Math.random() * 3.2 + 1.15).toFixed(2);
 
+      stopBackgroundMusic();
       generateFakeBetsList();
 
       document.getElementById('roundIdVal').innerText = Math.random().toString(36).substring(2, 14) + Math.random().toString(36).substring(2, 14);
@@ -884,7 +1032,8 @@
 
       setTimeout(() => {
         gameState = 'FLYING';
-        
+        startBackgroundMusic();
+
         if (bet1State === 'BET_PLACED') setInGameStatus(1);
         if (bet2State === 'BET_PLACED') setInGameStatus(2);
 
@@ -904,6 +1053,7 @@
       let elapsed = (Date.now() - startTime) / 1000;
       
       multiplier = 1.00 + Math.pow(elapsed, 1.35) * 0.08;
+      updateBgmPitch(multiplier);
 
       if (bet1State === 'IN_GAME') {
         document.getElementById('subText1').innerText = (bet1Amt * multiplier).toFixed(2) + ' ₹';
@@ -926,6 +1076,9 @@
         animId = requestAnimationFrame(() => animateFlight(startTime));
       } else {
         gameState = 'CRASHED';
+        stopBackgroundMusic();
+        playSoundEffect('crash');
+
         document.getElementById('flewTextDisplay').innerText = 'FLEW AWAY!';
         document.getElementById('multDisplay').style.color = '#e50914';
         document.getElementById('multDisplay').innerText = multiplier.toFixed(2) + 'x';
@@ -1012,6 +1165,7 @@
     }
 
     function toggleHistoryModal() {
+      playSoundEffect('click');
       let m = document.getElementById('historyModal');
       m.style.display = (m.style.display === 'block') ? 'none' : 'block';
     }
