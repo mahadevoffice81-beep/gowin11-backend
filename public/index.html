@@ -1,118 +1,122 @@
-// ==========================================
-// 1. SAFE LOCALSTORAGE WRAPPER
-// ==========================================
-const Storage = {
-    getItem: function(key) {
-        try {
-            return localStorage.getItem(key);
-        } catch (e) {
-            return window._memoryStore ? window._memoryStore[key] : null;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Demo Games Hub</title>
+    <style>
+        body {
+            background-color: #0f1923;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
         }
-    },
-    setItem: function(key, value) {
-        try {
-            localStorage.setItem(key, value);
-        } catch (e) {
-            if (!window._memoryStore) window._memoryStore = {};
-            window._memoryStore[key] = value;
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
         }
-    }
-};
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .game-card {
+            background: #1a2c38;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            border: 1px solid #2f4553;
+            transition: 0.3s;
+        }
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: #00e701;
+        }
+        .game-card h3 {
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        .game-card p {
+            color: #8a9ba8;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .play-btn {
+            background: #00e701;
+            color: #000;
+            border: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .play-btn:hover {
+            background: #00c701;
+        }
+    </style>
+</head>
+<body>
 
-// ==========================================
-// 2. VARIABLE INITIALIZATIONS
-// ==========================================
-let isDemoUser = false;
-let currentUser = null;
-let registeredUsers = JSON.parse(Storage.getItem('gowin_registered_users') || '[]');
+<div class="header">
+    <h2>Demo Casino Games Hub</h2>
+    <p>Apni website ke liye test karne ke liye demo games ki list</p>
+</div>
 
-// ==========================================
-// 3. AUTHENTICATION & LOGIN SYSTEM
-// ==========================================
-function handleUserAuth(identifier, password, type = 'mobile') {
-    identifier = identifier.trim();
-    password = password.trim();
+<div class="games-grid" id="gameGrid">
+    <!-- Game 1: Dice -->
+    <div class="game-card">
+        <h3>Stake Dice</h3>
+        <p>Classic roll under game.</p>
+        <a href="#play-dice" class="play-btn" onclick="loadGame('dice')">Play Demo</a>
+    </div>
 
-    let existingUser = registeredUsers.find(u => u.identifier === identifier && u.type === type);
+    <!-- Game 2: Limbo -->
+    <div class="game-card">
+        <h3>Limbo</h3>
+        <p>Target multiplier crash game.</p>
+        <a href="#play-limbo" class="play-btn" onclick="loadGame('limbo')">Play Demo</a>
+    </div>
 
-    if (existingUser) {
-        if (existingUser.password === password) {
-            currentUser = existingUser;
-            Storage.setItem('gowin_current_user', JSON.stringify(currentUser));
-            loadUserDashboard(currentUser);
-            return { success: true, message: "Login successful!" };
+    <!-- Game 3: Plinko -->
+    <div class="game-card">
+        <h3>Plinko</h3>
+        <p>Drop the ball and win multipliers.</p>
+        <a href="#play-plinko" class="play-btn" onclick="loadGame('plinko')">Play Demo</a>
+    </div>
+
+    <!-- Game 4: Mines -->
+    <div class="game-card">
+        <h3>Mines</h3>
+        <p>Find gems and avoid hidden mines.</p>
+        <a href="#play-mines" class="play-btn" onclick="loadGame('mines')">Play Demo</a>
+    </div>
+</div>
+
+<!-- Game Display Area -->
+<div id="activeGameContainer" style="margin-top: 40px; text-align: center;"></div>
+
+<script>
+    function loadGame(gameName) {
+        let container = document.getElementById("activeGameContainer");
+        if (gameName === 'dice') {
+            container.innerHTML = `
+                <div style="background:#1a2c38; padding:20px; border-radius:10px; max-width:350px; margin:0 auto; border:1px solid #00e701;">
+                    <h3>Playing: Stake Dice (Demo)</h3>
+                    <p>Demo Balance: $1000.00</p>
+                    <input type="number" id="demoBet" value="10" style="padding:8px; width:80%; margin-bottom:10px; background:#0f1923; color:#fff; border:1px solid #2f4553;"><br>
+                    <button onclick="alert('Demo Roll Executed! You Won $15!')" style="background:#00e701; border:none; padding:10px 20px; font-weight:bold; border-radius:5px; cursor:pointer;">Roll Dice</button>
+                </div>`;
         } else {
-            return { success: false, message: "Incorrect password! Please try again or use Forgot Password." };
+            container.innerHTML = `<div style="background:#1a2c38; padding:20px; border-radius:10px; max-width:350px; margin:0 auto;"><p>${gameName.toUpperCase()} demo mode is loading...</p></div>`;
         }
-    } else {
-        let newUser = {
-            uid: '#GW' + Math.floor(100000 + Math.random() * 900000),
-            identifier: identifier,
-            password: password,
-            type: type,
-            balance: 200.00,
-            username: (type === 'mobile' ? 'MobileUser_' : 'EmailUser_') + Math.floor(1000 + Math.random() * 9000)
-        };
-
-        registeredUsers.push(newUser);
-        Storage.setItem('gowin_registered_users', JSON.stringify(registeredUsers));
-        
-        currentUser = newUser;
-        Storage.setItem('gowin_current_user', JSON.stringify(currentUser));
-        
-        loadUserDashboard(currentUser);
-        return { success: true, message: "Account created and logged in successfully!" };
     }
-}
+</script>
 
-function handleForgotPassword(identifier, type = 'mobile') {
-    identifier = identifier.trim();
-    let existingUser = registeredUsers.find(u => u.identifier === identifier && u.type === type);
-
-    if (existingUser) {
-        return { 
-            success: true, 
-            message: `OTP sent to your ${type === 'mobile' ? 'Mobile Number' : 'Gmail'}. Your password is: ${existingUser.password}` 
-        };
-    } else {
-        return { success: false, message: "This identifier is not registered with us!" };
-    }
-}
-
-function resetPassword(identifier, newPassword, type = 'mobile') {
-    let userIndex = registeredUsers.findIndex(u => u.identifier === identifier && u.type === type);
-    if (userIndex !== -1) {
-        registeredUsers[userIndex].password = newPassword;
-        Storage.setItem('gowin_registered_users', JSON.stringify(registeredUsers));
-        return { success: true, message: "Password updated successfully! Please login." };
-    }
-    return { success: false, message: "User not found." };
-}
-
-// ==========================================
-// 4. UI & DASHBOARD LOADER
-// ==========================================
-function loadUserDashboard(user) {
-    isDemoUser = false;
-    
-    const usernameElement = document.querySelector('.username-display');
-    const uidElement = document.querySelector('.uid-display');
-    const balanceElement = document.querySelector('.balance-display');
-
-    if (usernameElement) usernameElement.innerText = user.username;
-    if (uidElement) uidElement.innerText = `UID: ${user.uid}`;
-    if (balanceElement) balanceElement.innerText = `${user.balance.toFixed(2)}`;
-}
-
-// Auto-login check on page load
-window.addEventListener('DOMContentLoaded', () => {
-    try {
-        const savedUser = Storage.getItem('gowin_current_user');
-        if (savedUser) {
-            currentUser = JSON.parse(savedUser);
-            loadUserDashboard(currentUser);
-        }
-    } catch (e) {
-        console.log("No active session found.");
-    }
-});
+</body>
+</html>
