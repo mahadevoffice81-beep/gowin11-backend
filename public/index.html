@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gowin11 - VIP Casino & Harshad Mehta Market 🇮🇳</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-main: #07090e;
+      --card-bg: #121620;
+      --accent-gold: #f59e0b;
+      --accent-green: #10b981;
+      --trade-red: #ef4444;
+      --panel-bg: #181d28;
+      --whatsapp-green: #25D366;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto Condensed', sans-serif; }
+    body { background-color: var(--bg-main); color: #fff; overflow-x: hidden; user-select: none; }
+
+    /* LANDING & LOGIN PAGE */
+    #loginScreen {
+      display: flex; flex-direction: column; min-height: 100vh; background: var(--bg-main); padding: 12px 16px;
+    }
+    .stake-topbar {
+      display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 15px;
+    }
+    .stake-logo { font-size: 26px; font-weight: 900; color: #fff; font-style: italic; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
+    .stake-auth-btns { display: flex; gap: 8px; }
+    .btn-signin { background: #1f2937; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 13px; cursor: pointer; }
+    .btn-register-top { background: #2563eb; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 13px; cursor: pointer; }
+
+    /* HERO BANNER SECTION */
+    .stake-hero-card {
+      background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 60%, #172554 100%);
+      border-radius: 16px; padding: 24px 16px; text-align: center; margin-bottom: 15px;
+      border: 1px solid rgba(59, 130, 246, 0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; overflow: hidden;
+    }
+    .hero-graphics { font-size: 50px; margin-bottom: 10px; display: flex; justify-content: center; gap: 10px; align-items: center; }
+    .stake-hero-card h1 { font-size: 21px; font-weight: 900; color: #fff; margin-bottom: 6px; text-transform: uppercase; }
+    .stake-hero-card p { font-size: 12px; color: #94a3b8; margin-bottom: 16px; }
+
+    .btn-hero-register {
+      width: 100%; background: #2563eb; color: #fff; border: none; padding: 14px; border-radius: 8px;
+      font-size: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 15px rgba(37,99,235,0.4);
+      margin-bottom: 14px;
+    }
+
+    .continue-divider { font-size: 11px; color: #64748b; margin-bottom: 10px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; text-align: center; }
+
+    /* SOCIAL & LOGIN BUTTONS GRID */
+    .social-login-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
+    @media(min-width: 400px) {
+      .social-login-grid { grid-template-columns: 1fr 1fr; }
+    }
+    .social-btn {
+      background: #111827; border: 1px solid #374151; padding: 12px; border-radius: 8px; color: #fff;
+      font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+    }
+    .social-btn:hover { background: #1f2937; border-color: #4b5563; }
+
+    /* LIVE HIGH-VALUE BETS TICKER SECTION */
+    .live-ticker-section {
+      background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 12px; margin-bottom: 15px;
+    }
+    .ticker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; font-weight: 800; color: var(--accent-gold); text-transform: uppercase; border-bottom: 1px solid #1f2937; padding-bottom: 6px; }
+    .ticker-table-head { display: grid; grid-template-columns: 1.5fr 1fr 1.2fr; font-size: 11px; color: #94a3b8; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; }
+    .ticker-list { display: flex; flex-direction: column; gap: 6px; max-height: 140px; overflow: hidden; }
+    .ticker-row-item { display: grid; grid-template-columns: 1.5fr 1fr 1.2fr; font-size: 12px; font-weight: 700; background: #0b0f19; padding: 6px 8px; border-radius: 6px; align-items: center; border: 1px solid #1e293b; animation: fadeInRow 0.3s ease-in-out; }
+
+    @keyframes fadeInRow {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* FOOTER & TRANSLATION SECTION */
+    .site-footer { text-align: center; padding: 10px 0 20px 0; border-top: 1px solid #1f2937; margin-top: auto; }
+    .footer-social-icons { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; color: #94a3b8; font-size: 18px; }
+    .footer-copy { font-size: 11px; color: #64748b; margin-bottom: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .lang-dropdown-box { display: inline-flex; align-items: center; background: #111827; border: 1px solid #374151; padding: 6px 12px; border-radius: 8px; color: #fff; font-weight: 800; font-size: 12px; gap: 6px; cursor: pointer; }
+
+    /* AUTH MODAL POPUP */
+    #authModalOverlay {
+      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85);
+      z-index: 999; justify-content: center; align-items: center; padding: 15px; overflow-y: auto;
+    }
+    .auth-modal-box {
+      background: #111827; width: 100%; max-width: 420px; padding: 24px; border-radius: 16px; border: 1px solid #374151; position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .modal-header-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+    .modal-header-sub { font-size: 13px; color: #94a3b8; margin-bottom: 16px; }
+
+    .input-group { position: relative; margin-bottom: 14px; text-align: left; }
+    .input-label { font-size: 11px; font-weight: 700; color: #cbd5e1; margin-bottom: 4px; display: block; text-transform: uppercase; }
+    .login-input {
+      width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #374151;
+      background: #030712; color: #fff; font-size: 14px; font-weight: 700; outline: none;
+    }
+    .login-input:focus { border-color: #2563eb; }
+
+    .modal-submit-btn {
+      width: 100%; padding: 14px; background: #2563eb; color: #fff; font-size: 15px; font-weight: 900;
+      border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; margin-bottom: 12px;
+      box-shadow: 0 4px 15px rgba(37,99,235,0.4);
+    }
+
+    .error-alert-box { background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-bottom: 12px; display: none; text-align: center; }
+    .success-alert-box { background: rgba(16, 185, 129, 0.15); border: 1px solid #10b981; color: #10b981; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: 700; margin-bottom: 12px; display: none; text-align: center; }
+
+    /* DASHBOARD LOBBY */
+    #dashboardApp { display: none; }
+    .app-header {
+      background: #101622; border-bottom: 2px solid var(--accent-gold); padding: 10px 14px;
+      display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
+    }
+    .brand-logo { font-size: 16px; font-weight: 800; color: var(--accent-gold); letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
+    
+    .header-right-group { display: flex; align-items: center; gap: 8px; }
+    .bal-badge { background: #090d16; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    
+    .coupon-payment-btn {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: var(--accent-gold); padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 800;
+      border: 1px solid var(--accent-gold); cursor: pointer; display: flex; align-items: center; gap: 4px;
+    }
+
+    .logout-top-btn {
+      background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; color: #ef4444; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer;
+    }
+
+    /* PROFILE WIDGET */
+    .profile-widget-card {
+      background: linear-gradient(135deg, #121826 0%, #0a0e17 100%);
+      border: 1px solid #273043; border-radius: 14px; padding: 12px 16px; margin-bottom: 16px;
+      display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    .profile-left-info { display: flex; align-items: center; gap: 12px; }
+    .profile-avatar-box {
+      width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+      color: #fff; font-size: 18px; font-weight: 900; display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--accent-gold); text-transform: uppercase;
+    }
+    .profile-name-txt { font-size: 15px; font-weight: 900; color: #fff; display: flex; align-items: center; gap: 6px; }
+    
+    .copy-action-btn {
+      background: #1e293b; border: 1px solid #374151; color: #38bdf8; padding: 6px 12px; border-radius: 6px;
+      font-size: 11px; font-weight: 800; cursor: pointer; text-transform: uppercase; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .copy-action-btn:hover { background: #2563eb; color: #fff; }
+
+    .profile-uid-row { display: flex; align-items: center; gap: 8px; margin-top: 3px; }
+    .profile-uid-txt { font-size: 11px; color: #38bdf8; font-weight: 700; background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 4px; display: inline-block; }
+    
+    .profile-right-actions { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+    
+    .whatsapp-support-badge {
+      background: rgba(37, 211, 102, 0.15); border: 1px solid var(--whatsapp-green); color: var(--whatsapp-green);
+      padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 800; display: flex; align-items: center; gap: 5px; cursor: pointer; text-decoration: none;
+    }
+
+    .main-wrapper { padding: 16px; max-width: 900px; margin: 0 auto; }
+    
+    /* TOP CATEGORIES ROW (CASINO & SPORTS) */
+    .top-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .cat-banner-card {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid #334155; border-radius: 14px; padding: 16px; text-align: center; cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: transform 0.2s;
+    }
+    .cat-banner-card:active { transform: scale(0.98); }
+    .cat-banner-title { font-size: 18px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+    .cat-banner-sub { font-size: 11px; font-weight: 700; color: var(--accent-green); display: flex; align-items: center; justify-content: center; gap: 4px; }
+
+    .lobby-section-title { font-size: 14px; font-weight: 800; color: var(--accent-gold); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+    
+    /* ORIGINAL GAMES GRID (EXACTLY MATCHING USER SCREENSHOT) */
+    .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
+    @media(max-width: 600px) {
+      .games-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    }
+    
+    .game-card-item {
+      background: #121620; border-radius: 14px; border: 1px solid #1f2937; overflow: hidden; cursor: pointer; text-align: center;
+      display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .game-card-thumb {
+      height: 110px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px;
+    }
+    .game-card-foot {
+      background: #0d111a; padding: 8px 4px; border-top: 1px solid #1f2937;
+    }
+    .game-title-txt { font-size: 13px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 0.5px; }
+    .game-sub-txt { font-size: 9px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-top: 2px; }
+    .game-playing-txt { font-size: 9px; font-weight: 700; color: var(--accent-green); display: flex; align-items: center; justify-content: center; gap: 3px; margin-top: 4px; }
+
+    .harshad-banner {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 50%, #451a03 100%);
+      border: 2px solid var(--accent-gold); border-radius: 16px; padding: 20px; text-align: center;
+      margin-bottom: 16px; cursor: pointer; box-shadow: 0 10px 30px rgba(245,158,11,0.25);
+    }
+    .harshad-banner h2 { font-size: 20px; font-weight: 900; color: var(--accent-gold); margin-bottom: 6px; text-transform: uppercase; }
+    .btn-enter-market { background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%); color: #000; border: none; padding: 8px 20px; border-radius: 20px; font-weight: 900; font-size: 12px; text-transform: uppercase; margin-top: 8px; }
+
+    /* DEPOSIT / WITHDRAW MODAL */
+    #paymentModal {
+      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85);
+      z-index: 9999; justify-content: center; align-items: center; padding: 15px;
+    }
+    .payment-modal-box {
+      background: #111827; width: 100%; max-width: 380px; padding: 24px; border-radius: 16px; border: 1px solid #374151; text-align: center;
+    }
+    .pay-tab-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .pay-tab-btn { background: #1f2937; color: #fff; border: 1px solid #374151; padding: 10px; border-radius: 8px; font-weight: 800; font-size: 13px; cursor: pointer; }
+    .pay-tab-btn.active { background: #2563eb; border-color: #38bdf8; }
+
+    .whatsapp-pay-btn {
+      background: var(--whatsapp-green); color: #000; border: none; padding: 14px; border-radius: 10px;
+      font-size: 14px; font-weight: 900; width: 100%; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+      text-transform: uppercase; margin-top: 12px; box-shadow: 0 4px 15px rgba(37,211,102,0.3);
+    }
+
+    /* TRADING TERMINAL MODAL */
+    #tradingModal {
+      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #07090e; z-index: 9999; flex-direction: column; overflow-y: auto;
+    }
+    .trade-topbar { background: #101622; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e293b; }
+    .market-title-head { font-size: 14px; font-weight: 900; color: var(--accent-gold); display: flex; align-items: center; gap: 6px; }
+
+    .trade-chart-container {
+      position: relative; background: #0b0f19; height: 220px; width: calc(100% - 16px);
+      border-radius: 14px; margin: 10px auto; max-width: 600px; border: 1px solid #1e293b; overflow: hidden;
+    }
+    #tradeCanvas { width: 100%; height: 100%; display: block; }
+    .pattern-overlay-tag { position: absolute; top: 10px; left: 10px; background: rgba(16, 185, 129, 0.2); border: 1px solid var(--accent-green); color: var(--accent-green); padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 800; }
+    .price-display-tag { position: absolute; top: 10px; right: 10px; font-size: 16px; font-weight: 900; color: #fff; }
+
+    .trade-panel { padding: 0 10px; max-width: 600px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 10px; }
+    .trade-card-box { background: var(--panel-bg); border: 1px solid #273043; border-radius: 14px; padding: 14px; }
+    .timer-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 13px; font-weight: 800; color: #94a3b8; }
+    .timer-badge { background: #07090e; padding: 4px 10px; border-radius: 6px; color: #38bdf8; border: 1px solid #1e293b; }
+    .amount-input-row { display: flex; align-items: center; background: #07090e; border: 1px solid #273043; border-radius: 10px; padding: 6px 12px; margin-bottom: 12px; }
+    .trade-amt-field { flex: 1; background: transparent; border: none; color: #fff; font-size: 18px; font-weight: 800; outline: none; text-align: center; }
+    .action-buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btn-call { background: var(--accent-green); border: none; border-radius: 12px; color: #fff; padding: 14px; font-size: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+    .btn-put { background: var(--trade-red); border: none; border-radius: 12px; color: #fff; padding: 14px; font-size: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
+    #activeTradeStatus { display: none; background: #1e1b4b; border: 1px solid var(--accent-gold); border-radius: 10px; padding: 12px; text-align: center; margin-top: 10px; font-size: 13px; font-weight: 800; }
+  </style>
+</head>
+<body>
+
+  <!-- LANDING & LOGIN PAGE -->
+  <div id="loginScreen">
+    <div class="stake-topbar">
+      <div class="stake-logo">Gowin11 <span>🇮🇳</span></div>
+      <div class="stake-auth-btns">
+        <button class="btn-signin" onclick="openAuthModal('signin')">Sign In</button>
+        <button class="btn-register-top" onclick="openAuthModal('register')">Register</button>
+      </div>
+    </div>
+
+    <div class="stake-hero-card">
+      <div class="hero-graphics">🏀 💎 🎲</div>
+      <h1>World's Largest Online Casino & Sportsbook</h1>
+      <p>Experience High-Speed Pro Gaming & Harshad Mehta Market 🇮🇳</p>
+      <button class="btn-hero-register" onclick="openAuthModal('register')">Register / Account ID</button>
+      
+      <div class="continue-divider">Or Quick Access</div>
+
+      <div class="social-login-grid">
+        <button class="social-btn" onclick="openAuthModal('signin')">
+          <span class="material-icons" style="font-size:16px; color:#38bdf8;">email</span> Email Login
+        </button>
+        <button class="social-btn" onclick="openAuthModal('mobile')">
+          <span class="material-icons" style="font-size:16px; color:#38bdf8;">phone_iphone</span> Mobile + OTP ID
+        </button>
+        <button class="social-btn" style="grid-column: span 2;" onclick="loginAsDemoDirectly()">
+          <span class="material-icons" style="font-size:16px; color:var(--accent-gold);">sports_esports</span> Demo Login (200 Coins)
+        </button>
+      </div>
+    </div>
+
+    <!-- LIVE HIGH-VALUE BETS TICKER SECTION -->
+    <div class="live-ticker-section">
+      <div class="ticker-header">
+        <span>⚡ Live High-Stakes Bets & Payouts</span>
+        <span style="color:var(--accent-green); font-size:10px;">● Live Feed 🇮🇳</span>
+      </div>
+      <div class="ticker-table-head">
+        <span>Game</span>
+        <span>User</span>
+        <span style="text-align:right;">Payout</span>
+      </div>
+      <div class="ticker-list" id="liveTickerList"></div>
+    </div>
+
+    <!-- PROFESSIONAL FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-social-icons">
+        <span>📰</span> <span>💬</span> <span>🌐</span> <span>📸</span> <span>▶️</span> <span>✈️</span>
+      </div>
+      <div class="footer-copy"><span>© 2026 Gowin11.com | All Rights Reserved.</span> <span>🇮🇳</span></div>
+      <div>
+        <select class="lang-dropdown-box" id="langSelector">
+          <option value="en">🌐 English</option>
+          <option value="hi">🌐 Hindi (हिंदी)</option>
+          <option value="bn">🌐 Bengali (বাংলা)</option>
+        </select>
+      </div>
+    </footer>
+  </div>
+
+  <!-- AUTH MODAL POPUP -->
+  <div id="authModalOverlay">
+    <div class="auth-modal-box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <div>
+          <div class="modal-header-title" id="modalTitle">Create Account</div>
+          <div class="modal-header-sub" id="modalSub">Enter your Credentials</div>
+        </div>
+        <span class="material-icons" style="cursor:pointer; color:#94a3b8; font-size:24px;" onclick="closeAuthModal()">close</span>
+      </div>
+
+      <div id="modalErrorAlert" class="error-alert-box"></div>
+      <div id="modalSuccessAlert" class="success-alert-box"></div>
+      <div id="dynamicFormContent"></div>
+    </div>
+  </div>
+
+  <!-- PAYMENT & COUPON MODAL -->
+  <div id="paymentModal">
+    <div class="payment-modal-box">
+      <div style="font-size:18px; font-weight:900; color:var(--accent-gold); margin-bottom:4px;">💳 Coupon & Payments 🇮🇳</div>
+      <div style="font-size:12px; color:#94a3b8; margin-bottom:14px;">Manage coins instantly via WhatsApp support</div>
+      
+      <div class="pay-tab-row">
+        <button class="pay-tab-btn active" id="tabDepositBtn" onclick="switchPayTab('deposit')">Deposit</button>
+        <button class="pay-tab-btn" id="tabWithdrawBtn" onclick="switchPayTab('withdraw')">Withdrawal</button>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" id="payAmtLabel">Enter Deposit Amount (Coins) *</label>
+        <input type="number" id="payAmtInput" class="login-input" value="1000">
+      </div>
+
+      <a id="whatsappPayLink" href="https://wa.me/?text=Hello" target="_blank" style="text-decoration:none;">
+        <button class="whatsapp-pay-btn">
+          <span style="font-size:18px;">💬</span> Proceed via WhatsApp
+        </button>
+      </a>
+
+      <button style="background:#374151; color:#fff; border:none; padding:10px; border-radius:8px; font-weight:800; cursor:pointer; width:100%; margin-top:10px;" onclick="closePaymentModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- GAMES DASHBOARD LOBBY (MATCHING USER SCREENSHOT EXACTLY) -->
+  <div id="dashboardApp">
+    <header class="app-header">
+      <div class="brand-logo">Gowin11 VIP <span>🇮🇳</span></div>
+      <div class="header-right-group">
+        <button class="coupon-payment-btn" onclick="openPaymentModal()">
+          <span class="material-icons" style="font-size:14px; color:var(--accent-gold);">local_activity</span> Coupon / Pay
+        </button>
+        <div class="bal-badge" onclick="openPaymentModal()">🪙 <span id="userBal">0.00</span> ➕</div>
+        <button class="logout-top-btn" onclick="handleLogout()" title="Logout">Logout</button>
+      </div>
+    </header>
+
+    <div class="main-wrapper">
+      
+      <!-- TOP CASINO & SPORTS BANNER CARDS (FROM SCREENSHOT) -->
+      <div class="top-cat-grid">
+        <div class="cat-banner-card" onclick="launchGame('casino_lobby')">
+          <div class="cat-banner-title">Casino</div>
+          <div class="cat-banner-sub"><span style="width:7px; height:7px; background:var(--accent-green); border-radius:50%; display:inline-block;"></span> 5,700 playing</div>
+        </div>
+        <div class="cat-banner-card" onclick="launchGame('sports_lobby')">
+          <div class="cat-banner-title">Sports</div>
+          <div class="cat-banner-sub"><span style="width:7px; height:7px; background:var(--accent-green); border-radius:50%; display:inline-block;"></span> 38,959 betting</div>
+        </div>
+      </div>
+
+      <!-- PROFILE WIDGET -->
+      <div class="profile-widget-card">
+        <div class="profile-left-info">
+          <div class="profile-avatar-box" id="userAvatarChar">U</div>
+          <div>
+            <div class="profile-name-txt">
+              <span id="profileDisplayName">User</span>
+            </div>
+            <div class="profile-uid-row">
+              <span class="profile-uid-txt" id="profileUidText">UID: #GW000000</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-right-actions">
+          <button class="copy-action-btn" id="copyBtnEl" onclick="copyUserInfo()">
+            <span class="material-icons" style="font-size:13px;">content_copy</span> <span id="copyBtnTxt">Copy Details</span>
+          </button>
+          
+          <a class="whatsapp-support-badge" id="whatsappSupportLink" href="https://wa.me/?text=Hello" target="_blank">
+            <span style="font-size:13px;">💬</span> Support
+          </a>
+        </div>
+      </div>
+
+      <!-- HARSHAD MEHTA SPECIAL MARKET BANNER -->
+      <div class="harshad-banner" onclick="launchGame('harshad')">
+        <h2>📈 Harshad Mehta Market 🇮🇳</h2>
+        <p>Live 1-Minute Binary Speed Trading with Professional Candlestick Patterns!</p>
+        <button class="btn-enter-market">Launch Trading Terminal</button>
+      </div>
+
+      <div class="lobby-section-title">Original Games</div>
+
+      <!-- ORIGINAL GAMES GRID (EXACTLY MATCHING USER SCREENSHOT) -->
+      <div class="games-grid">
+        <div class="game-card-item" onclick="launchGame('dice')">
+          <div class="game-card-thumb" style="background: radial-gradient(circle, #22153b 0%, #121620 100%);">
+            <span style="font-size:36px;">🎲</span>
+          </div>
+          <div class="game-card-foot">
+            <div class="game-title-txt">Dice</div>
+            <div class="game-sub-txt">Originals</div>
+            <div class="game-playing-txt">● 2,053 playing</div>
+          </div>
+        </div>
+
+        <div class="game-card-item" onclick="launchGame('mines')">
+          <div class="game-card-thumb" style="background: radial-gradient(circle, #0d2738 0%, #121620 100%);">
+            <span style="font-size:36px;">💎</span>
+          </div>
+          <div class="game-card-foot">
+            <div class="game-title-txt">Mines</div>
+            <div class="game-sub-txt">Originals</div>
+            <div class="game-playing-txt">● 2,816 playing</div>
+          </div>
+        </div>
+
+        <div class="game-card-item" onclick="launchGame('plinko')">
+          <div class="game-card-thumb" style="background: radial-gradient(circle, #3b1527 0%, #121620 100%);">
+            <span style="font-size:36px;">🟡</span>
+          </div>
+          <div class="game-card-foot">
+            <div class="game-title-txt">Plinko</div>
+            <div class="game-sub-txt">Originals</div>
+            <div class="game-playing-txt">● 1,127 playing</div>
+          </div>
+        </div>
+
+        <div class="game-card-item" onclick="launchGame('crash')">
+          <div class="game-card-thumb" style="background: radial-gradient(circle, #0d3824 0%, #121620 100%);">
+            <span style="font-size:36px;">🚀</span>
+          </div>
+          <div class="game-card-foot">
+            <div class="game-title-txt">Crash</div>
+            <div class="game-sub-txt">Originals</div>
+            <div class="game-playing-txt">● 4,120 playing</div>
+          </div>
+        </div>
+
+        <div class="game-card-item" onclick="launchGame('wheel')">
+          <div class="game-card-thumb" style="background: radial-gradient(circle, #3b2c15 0%, #121620 100%);">
+            <span style="font-size:36px;">🎡</span>
+          </div>
+          <div class="game-card-foot">
+            <div class="game-title-txt">Wheel</div>
+            <div class="game-sub-txt">Originals</div>
+            <div class="game-playing-txt">● 950 playing</div>
+          </div>
+        </div>
+
+        <div class="game-card-item" onclick="launchGame('limbo')">
+          <div class="game-card-thumb" style="background: radial-gradient(circle, #3b1515 0%, #121620 100%);">
+            <span style="font-size:36px;">🎯</span>
+          </div>
+          <div class="game-card-foot">
+            <div class="game-title-txt">Limbo</div>
+            <div class="game-sub-txt">Originals</div>
+            <div class="game-playing-txt">● 1,830 playing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRADING TERMINAL MODAL -->
+  <div id="tradingModal">
+    <div class="trade-topbar">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="material-icons" style="cursor:pointer;" onclick="closeTradingTerminal()">arrow_back</span>
+        <span class="market-title-head">📈 Harshad Mehta Market (VIP TERMINAL 🇮🇳)</span>
+      </div>
+      <div style="font-size:14px; font-weight:800; color:var(--accent-gold);">🪙 <span id="tradeBal">0.00</span></div>
+    </div>
+
+    <div class="trade-chart-container">
+      <div class="pattern-overlay-tag" id="patternTag">Pattern: Analyzing...</div>
+      <div class="price-display-tag" id="priceTag">31250.40</div>
+      <canvas id="tradeCanvas"></canvas>
+    </div>
+
+    <div class="trade-panel">
+      <div class="trade-card-box">
+        <div class="timer-row">
+          <span>Trade Duration</span>
+          <span class="timer-badge">1 Minute (60s)</span>
+        </div>
+
+        <div class="amount-input-row">
+          <span style="color:#94a3b8; font-weight:700; font-size:13px;">🪙</span>
+          <input type="number" id="tradeAmtInput" class="trade-amt-field" value="1000">
+        </div>
+
+        <div class="action-buttons-grid" id="tradeActionBtns">
+          <button class="btn-call" onclick="executeTrade('UP')">UP (CALL) 📈</button>
+          <button class="btn-put" onclick="executeTrade('DOWN')">DOWN (PUT) 📉</button>
+        </div>
+
+        <div id="activeTradeStatus">
+          <div>Trade Direction: <span id="liveDir" style="color:var(--accent-gold);">UP</span> | Invested: 🪙<span id="liveAmt">1000</span></div>
+          <div style="margin-top:4px;">Live P&L: <span id="livePnlVal" style="color:var(--accent-green);">🪙 +0.00</span></div>
+          <div style="margin-top:4px; font-size:11px; color:#94a3b8;">Time remaining: <span id="tradeTimerCount">60</span>s</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let defaultUsers = [
+      { gmail: "rahul@gmail.com", username: "Rahul Sharma", pass: "12345", uid: "#GW984210", balance: 0.00 },
+      { gmail: "admin@gowin11.com", username: "MasterAdmin", pass: "admin999", uid: "#GW100001", balance: 10000.00 }
+    ];
+
+    let registeredUsers = JSON.parse(localStorage.getItem('gowin11_users')) || defaultUsers;
+
+    let userBalance = 0.00;
+    let currentUserName = "User";
+    let currentUID = "#GW000000";
+    let currentUserEmail = "";
+    let isDemoUser = false;
+    let activePayTab = 'deposit';
+
+    let currentPrice = 31250.40;
+    let candles = [];
+    let patternsList = ['Bullish Hammer 🔨', 'Bullish Engulfing 🟢', 'Doji Star ➕', 'Bearish Engulfing 🔴', 'Morning Star ⭐', 'Three White Soldiers 📈'];
+
+    let tickerGamesPool = [
+      { name: "Harshad Mehta Market", icon: "📈" },
+      { name: "Dice", icon: "🎲" },
+      { name: "Mines", icon: "💎" },
+      { name: "Plinko", icon: "🟡" },
+      { name: "Crash", icon: "🚀" },
+      { name: "Wheel", icon: "🎡" },
+      { name: "Limbo", icon: "🎯" }
+    ];
+
+    let sampleUsernamesPool = [
+      "Rahul_King_99", "Amit_VIP_777", "Vikram_Trader", "Priya_Queen", "Deepak_Highroller", 
+      "Rohit_Mumbai", "Sneha_Delhi", "Karan_Gupta", "Sahil_Bhai", "Vikas_Pro", "Ajay_Singh", "Manish_77"
+    ];
+
+    function initLiveTicker() {
+      let tickerContainer = document.getElementById('liveTickerList');
+      if(!tickerContainer) return;
+
+      for(let i=0; i<5; i++) {
+        appendTickerRow(tickerContainer, true);
+      }
+
+      setInterval(() => {
+        if(tickerContainer.children.length > 5) {
+          tickerContainer.removeChild(tickerContainer.lastChild);
+        }
+        appendTickerRow(tickerContainer, false);
+      }, 1500);
+    }
+
+    function appendTickerRow(container, isInit) {
+      let randGame = tickerGamesPool[Math.floor(Math.random() * tickerGamesPool.length)];
+      let randUser = sampleUsernamesPool[Math.floor(Math.random() * sampleUsernamesPool.length)];
+      let isWin = Math.random() > 0.3;
+      
+      let rawAmt = Math.random() > 0.4 ? (Math.random() * 85000 + 5000) : (Math.random() * 4500 + 800);
+      let amt = rawAmt.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      
+      let payoutColor = isWin ? '#10b981' : '#ef4444';
+      let payoutPrefix = isWin ? '+' : '-';
+
+      let row = document.createElement('div');
+      row.className = 'ticker-row-item';
+      row.innerHTML = `
+        <span style="color:#fff; display:flex; align-items:center; gap:4px;"><span>${randGame.icon}</span> ${randGame.name}</span>
+        <span style="color:#94a3b8;">${randUser}</span>
+        <span style="text-align:right; color:${payoutColor}; font-weight:900;">🪙 ${payoutPrefix}${amt}</span>
+      `;
+      
+      if(isInit) {
+        container.appendChild(row);
+      } else {
+        container.insertBefore(row, container.firstChild);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initLiveTicker();
+
+      let savedSession = localStorage.getItem('gowin11_active_session');
+      if (savedSession) {
+        let sessionData = JSON.parse(savedSession);
+        currentUserName = sessionData.username;
+        currentUID = sessionData.uid;
+        currentUserEmail = sessionData.gmail;
+        isDemoUser = sessionData.isDemo;
+        userBalance = sessionData.balance;
+
+        if (!isDemoUser) {
+          let foundUser = registeredUsers.find(u => u.gmail === currentUserEmail);
+          if (foundUser) {
+            userBalance = foundUser.balance || 0.00;
+          }
+        }
+
+        updateProfileUI();
+        completeLoginToDashboard();
+      }
+    });
+
+    function saveUsersToStorage() {
+      localStorage.setItem('gowin11_users', JSON.stringify(registeredUsers));
+    }
+
+    function saveActiveSession() {
+      let sessionData = {
+        username: currentUserName,
+        uid: currentUID,
+        gmail: currentUserEmail,
+        isDemo: isDemoUser,
+        balance: userBalance
+      };
+      localStorage.setItem('gowin11_active_session', JSON.stringify(sessionData));
+    }
+
+    function updateDatabaseBalance() {
+      if (!isDemoUser && currentUserEmail) {
+        let foundUser = registeredUsers.find(u => u.gmail === currentUserEmail);
+        if (foundUser) {
+          foundUser.balance = userBalance;
+          saveUsersToStorage();
+        }
+      }
+      saveActiveSession();
+    }
+
+    function handleLogout() {
+      localStorage.removeItem('gowin11_active_session');
+      location.reload();
+    }
+
+    function showError(msg) {
+      let errBox = document.getElementById('modalErrorAlert');
+      let succBox = document.getElementById('modalSuccessAlert');
+      succBox.style.display = 'none';
+      errBox.style.display = 'block';
+      errBox.innerText = msg;
+    }
+
+    function showSuccess(msg) {
+      let errBox = document.getElementById('modalErrorAlert');
+      let succBox = document.getElementById('modalSuccessAlert');
+      errBox.style.display = 'none';
+      succBox.style.display = 'block';
+      succBox.innerText = msg;
+    }
+
+    function clearAlerts() {
+      document.getElementById('modalErrorAlert').style.display = 'none';
+      document.getElementById('modalSuccessAlert').style.display = 'none';
+    }
+
+    function generateUniqueUID() {
+      let randomNum;
+      let newUid;
+      do {
+        randomNum = Math.floor(100000 + Math.random() * 900000);
+        newUid = "#GW" + randomNum;
+        var exists = registeredUsers.some(u => u.uid === newUid);
+      } while(exists);
+      return newUid;
+    }
+
+    function loginAsDemoDirectly() {
+      isDemoUser = true;
+      currentUserName = "DemoPlayer_" + Math.floor(Math.random() * 900 + 100);
+      currentUID = generateUniqueUID();
+      currentUserEmail = "demo@gowin11.com";
+      userBalance = 5000.00;
+      saveActiveSession();
+      updateProfileUI();
+      completeLoginToDashboard();
+    }
+
+    function openAuthModal(type) {
+      document.getElementById('authModalOverlay').style.display = 'flex';
+      clearAlerts();
+      let contentDiv = document.getElementById('dynamicFormContent');
+
+      if(type === 'register') {
+        document.getElementById('modalTitle').innerText = 'Create Real Account';
+        document.getElementById('modalSub').innerText = 'Enter your Gmail ID, Username & Password';
+        
+        contentDiv.innerHTML = `
+          <div class="input-group">
+            <label class="input-label">Gmail ID *</label>
+            <input type="email" id="regGmail" class="login-input" placeholder="example@gmail.com">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Username / Name *</label>
+            <input type="text" id="regUsername" class="login-input" placeholder="Enter your name">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Password *</label>
+            <input type="password" id="regPass" class="login-input" placeholder="Enter password">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Confirm Password *</label>
+            <input type="password" id="regConfirmPass" class="login-input" placeholder="Re-enter password">
+          </div>
+          <button class="modal-submit-btn" onclick="handleRealRegistration()">Register Account</button>
+          <div style="text-align:center; margin-top:10px;">
+            <span style="font-size:12px; color:#94a3b8; cursor:pointer;" onclick="openAuthModal('signin')">Already have account? Email Login</span>
+          </div>
+        `;
+      } else if(type === 'signin') {
+        document.getElementById('modalTitle').innerText = 'Email Login';
+        document.getElementById('modalSub').innerText = 'Enter your registered Gmail ID & Password';
+        
+        contentDiv.innerHTML = `
+          <div class="input-group">
+            <label class="input-label">Gmail ID *</label>
+            <input type="email" id="loginGmail" class="login-input" placeholder="example@gmail.com">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Password *</label>
+            <input type="password" id="loginPass" class="login-input" placeholder="Enter password">
+          </div>
+          <button class="modal-submit-btn" onclick="handleEmailLogin()">Login Securely</button>
+          <div style="display:flex; justify-content:space-between; margin-top:10px; font-size:12px;">
+            <span style="color:#38bdf8; cursor:pointer;" onclick="openAuthModal('register')">Register New Account</span>
+            <span style="color:#f59e0b; cursor:pointer;" onclick="openAuthModal('forgot')">Forgot Password?</span>
+          </div>
+        `;
+      } else if(type === 'forgot') {
+        document.getElementById('modalTitle').innerText = 'Forgot Password Recovery';
+        document.getElementById('modalSub').innerText = 'Verify your Gmail & Username to reset password';
+        
+        contentDiv.innerHTML = `
+          <div class="input-group">
+            <label class="input-label">Registered Gmail ID *</label>
+            <input type="email" id="forgotGmail" class="login-input" placeholder="example@gmail.com">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Registered Username *</label>
+            <input type="text" id="forgotUsername" class="login-input" placeholder="Enter your username">
+          </div>
+          <div class="input-group">
+            <label class="input-label">New Password *</label>
+            <input type="password" id="newPass" class="login-input" placeholder="Enter new password">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Confirm New Password *</label>
+            <input type="password" id="confirmNewPass" class="login-input" placeholder="Re-enter new password">
+          </div>
+          <button class="modal-submit-btn" onclick="handleForgotPasswordReset()">Reset Password</button>
+          <div style="text-align:center; margin-top:10px;">
+            <span style="font-size:12px; color:#38bdf8; cursor:pointer;" onclick="openAuthModal('signin')">Back to Email Login</span>
+          </div>
+        `;
+      } else if(type === 'mobile') {
+        document.getElementById('modalTitle').innerText = 'Mobile Number & OTP Login 🇮🇳';
+        document.getElementById('modalSub').innerText = 'Enter your 10-digit number for instant OTP verification';
+        
+        contentDiv.innerHTML = `
+          <div class="input-group">
+            <label class="input-label">Mobile Number *</label>
+            <input type="tel" id="mobileNumberInput" class="login-input" placeholder="10-digit mobile number" maxlength="10">
+          </div>
+          
+          <div id="otpSection" style="display:none;">
+            <div style="background:rgba(56, 189, 248, 0.1); border:1px solid #38bdf8; padding:10px; border-radius:8px; margin-bottom:14px; text-align:center;">
+              <div style="font-size:11px; color:#94a3b8; font-weight:700;">SECURE OTP CODE (Auto-Generated):</div>
+              <div id="generatedOtpDisplay" style="font-size:22px; font-weight:900; color:var(--accent-gold); letter-spacing:4px; margin-top:4px;">------</div>
+              <div style="font-size:11px; color:#ef4444; margin-top:4px;">OTP Expires in: <span id="otpCountdownTimer">60</span>s</div>
+            </div>
+
+            <div class="input-group">
+              <label class="input-label">Enter 6-Digit OTP *</label>
+              <input type="text" id="enteredOtpInput" class="login-input" placeholder="Enter OTP code" maxlength="6">
+            </div>
+          </div>
+
+          <button class="modal-submit-btn" id="mobileActionBtn" onclick="handleMobileOtpFlow()">Send OTP</button>
+        `;
+      }
+    }
+
+    function handleRealRegistration() {
+      clearAlerts();
+      let gmail = document.getElementById('regGmail').value.trim().toLowerCase();
+      let uname = document.getElementById('regUsername').value.trim();
+      let pass = document.getElementById('regPass').value;
+      let cpass = document.getElementById('regConfirmPass').value;
+
+      if(!gmail || !gmail.includes('@')) {
+        showError("Kripya valid Gmail ID enter karein!");
+        return;
+      }
+      if(!uname) {
+        showError("Kripya Username enter karein!");
+        return;
+      }
+      if(!pass || pass.length < 4) {
+        showError("Password kam se kam 4 characters ka hona chahiye!");
+        return;
+      }
+      if(pass !== cpass) {
+        showError("Passwords match nahi ho rahe hain!");
+        return;
+      }
+
+      let existing = registeredUsers.find(u => u.gmail === gmail);
+      if(existing) {
+        showError("Yeh Gmail ID pehle se registered hai! Kripya Email Login karein.");
+        return;
+      }
+
+      let newUid = generateUniqueUID();
+      let newUser = { gmail, username: uname, pass, uid: newUid, balance: 0.00 };
+      registeredUsers.push(newUser);
+      saveUsersToStorage();
+
+      isDemoUser = false;
+      currentUserName = uname;
+      currentUID = newUid;
+      currentUserEmail = gmail;
+      userBalance = 0.00;
+
+      saveActiveSession();
+      updateProfileUI();
+      completeLoginToDashboard();
+    }
+
+    function handleEmailLogin() {
+      clearAlerts();
+      let gmail = document.getElementById('loginGmail').value.trim().toLowerCase();
+      let pass = document.getElementById('loginPass').value;
+
+      if(!gmail || !pass) {
+        showError("Kripya Gmail aur Password dono dalein!");
+        return;
+      }
+
+      let user = registeredUsers.find(u => u.gmail === gmail && u.pass === pass);
+      if(!user) {
+        showError("Galat password ya galat Gmail! Kripya sahi details dalein.");
+        return;
+      }
+
+      isDemoUser = false;
+      currentUserName = user.username;
+      currentUID = user.uid;
+      currentUserEmail = user.gmail;
+      userBalance = user.balance || 0.00;
+
+      saveActiveSession();
+      updateProfileUI();
+      completeLoginToDashboard();
+    }
+
+    function handleForgotPasswordReset() {
+      clearAlerts();
+      let gmail = document.getElementById('forgotGmail').value.trim().toLowerCase();
+      let uname = document.getElementById('forgotUsername').value.trim();
+      let npass = document.getElementById('newPass').value;
+      let cpass = document.getElementById('confirmNewPass').value;
+
+      if(!gmail || !uname || !npass) {
+        showError("Sabhi fields bharna anivarya hai!");
+        return;
+      }
+      if(npass !== cpass) {
+        showError("New Password aur Confirm Password match nahi ho rahe!");
+        return;
+      }
+
+      let user = registeredUsers.find(u => u.gmail === gmail && u.username.toLowerCase() === uname.toLowerCase());
+      if(!user) {
+        showError("Galat Gmail ya galat Username! Data match nahi hua.");
+        return;
+      }
+
+      user.pass = npass;
+      saveUsersToStorage();
+      showSuccess("Password successfully reset ho gaya! Ab aap Email Login kar sakte hain.");
+      setTimeout(() => {
+        openAuthModal('signin');
+      }, 2000);
+    }
+
+    let otpInterval = null;
+    let currentGeneratedOtp = "";
+
+    function handleMobileOtpFlow() {
+      clearAlerts();
+      let mob = document.getElementById('mobileNumberInput').value.trim();
+      let btn = document.getElementById('mobileActionBtn');
+
+      if(mob.length !== 10 || isNaN(mob)) {
+        showError("Kripya valid 10-digit mobile number enter karein!");
+        return;
+      }
+
+      if(btn.innerText === "SEND OTP") {
+        document.getElementById('otpSection').style.display = 'block';
+        document.getElementById('generatedOtpDisplay').innerText = "......";
+        document.getElementById('otpCountdownTimer').innerText = "60";
+        btn.innerText = "VERIFY & LOGIN";
+
+        currentGeneratedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+
+        setTimeout(() => {
+          document.getElementById('generatedOtpDisplay').innerText = currentGeneratedOtp;
+        }, 5000);
+
+        let timeLeft = 60;
+        if(otpInterval) clearInterval(otpInterval);
+        otpInterval = setInterval(() => {
+          timeLeft--;
+          let timerSpan = document.getElementById('otpCountdownTimer');
+          if(timerSpan) timerSpan.innerText = timeLeft;
+          if(timeLeft <= 0) {
+            clearInterval(otpInterval);
+            showError("OTP expired! Kripya dobara try karein.");
+            btn.innerText = "SEND OTP";
+            document.getElementById('otpSection').style.display = 'none';
+          }
+        }, 1000);
+
+      } else {
+        let enteredOtp = document.getElementById('enteredOtpInput').value.trim();
+        if(!enteredOtp || enteredOtp !== currentGeneratedOtp) {
+          showError("Galat OTP enter kiya gaya hai! Kripya screen par diya gaya OTP dekhein.");
+          return;
+        }
+
+        if(otpInterval) clearInterval(otpInterval);
+        isDemoUser = false;
+        let mobEmail = mob + "@mobile.com";
+        
+        let existingMobUser = registeredUsers.find(u => u.gmail === mobEmail);
+        if(existingMobUser) {
+          currentUserName = existingMobUser.username;
+          currentUID = existingMobUser.uid;
+          currentUserEmail = existingMobUser.gmail;
+          userBalance = existingMobUser.balance || 0.00;
+        } else {
+          currentUserName = "MobileUser_" + mob.slice(-4);
+          currentUID = generateUniqueUID();
+          currentUserEmail = mobEmail;
+          userBalance = 0.00;
+          registeredUsers.push({ gmail: currentUserEmail, username: currentUserName, pass: "otp_user", uid: currentUID, balance: userBalance });
+          saveUsersToStorage();
+        }
+
+        saveActiveSession();
+        updateProfileUI();
+        completeLoginToDashboard();
+      }
+    }
+
+    function updateProfileUI() {
+      let displayName = isDemoUser ? currentUserName + " (Demo)" : currentUserName;
+      let displayUid = isDemoUser ? currentUID + " (Demo)" : currentUID;
+
+      document.getElementById('profileDisplayName').innerText = displayName;
+      document.getElementById('profileUidText').innerText = 'UID: ' + displayUid;
+      document.getElementById('userAvatarChar').innerText = currentUserName.charAt(0).toUpperCase();
+      updateWhatsAppLinks();
+    }
+
+    function copyUserInfo() {
+      let tagText = isDemoUser ? " (Demo)" : "";
+      let combinedText = `Username: ${currentUserName}${tagText} | UID: ${currentUID}${tagText}`;
+      
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(combinedText).then(() => {
+          showCopySuccess();
+        }).catch(() => {
+          fallbackCopyText(combinedText);
+        });
+      } else {
+        fallbackCopyText(combinedText);
+      }
+    }
+
+    function fallbackCopyText(text) {
+      let textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        let successful = document.execCommand('copy');
+        if (successful) {
+          showCopySuccess();
+        } else {
+          alert("Copy nahi ho paya!");
+        }
+      } catch (err) {
+        alert("Copy nahi ho paya!");
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showCopySuccess() {
+      let txtSpan = document.getElementById('copyBtnTxt');
+      let btnEl = document.getElementById('copyBtnEl');
+      txtSpan.innerText = "Copied! ✓";
+      btnEl.style.borderColor = "#10b981";
+      btnEl.style.color = "#10b981";
+      
+      setTimeout(() => {
+        txtSpan.innerText = "Copy Details";
+        btnEl.style.borderColor = "#374151";
+        btnEl.style.color = "#38bdf8";
+      }, 2000);
+    }
+
+    function completeLoginToDashboard() {
+      document.getElementById('authModalOverlay').style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('dashboardApp').style.display = 'block';
+      updateBalUI();
+    }
+
+    function closeAuthModal() {
+      if(otpInterval) clearInterval(otpInterval);
+      document.getElementById('authModalOverlay').style.display = 'none';
+    }
+
+    function launchGame(gameName) {
+      if(gameName === 'harshad') {
+        openTradingTerminal();
+      } else if(gameName === 'casino_lobby' || gameName === 'sports_lobby') {
+        alert(gameName.toUpperCase() + ' Lobby loaded successfully!');
+      } else {
+        alert(gameName.toUpperCase() + ' game launching successfully!');
+      }
+    }
+
+    function openPaymentModal() {
+      document.getElementById('paymentModal').style.display = 'flex';
+      updateWhatsAppLinks();
+    }
+
+    function closePaymentModal() {
+      document.getElementById('paymentModal').style.display = 'none';
+    }
+
+    function switchPayTab(tab) {
+      activePayTab = tab;
+      let depBtn = document.getElementById('tabDepositBtn');
+      let witBtn = document.getElementById('tabWithdrawBtn');
+      let lbl = document.getElementById('payAmtLabel');
+
+      if(tab === 'deposit') {
+        depBtn.classList.add('active');
+        witBtn.classList.remove('active');
+        lbl.innerText = 'Enter Deposit Amount (Coins) *';
+      } else {
+        witBtn.classList.add('active');
+        depBtn.classList.remove('active');
+        lbl.innerText = 'Enter Withdrawal Amount (Coins) *';
+      }
+      updateWhatsAppLinks();
+    }
+
+    function updateWhatsAppLinks() {
+      let amt = document.getElementById('payAmtInput').value || '1000';
+      let tagText = isDemoUser ? " [DEMO]" : "";
+      let payMsg = `Hello Gowin11 Support,%0AI want to ${activePayTab.toUpperCase()} ${amt} coins.%0A👤 Name: ${currentUserName}${tagText}%0A🆔 UID: ${currentUID}`;
+      document.getElementById('whatsappPayLink').href = `https://wa.me/?text=${payMsg}`;
+
+      let supportMsg = `Hello Gowin11 Support,%0AHelp me with my account.%0A👤 Name: ${currentUserName}${tagText}%0A🆔 UID: ${currentUID}`;
+      document.getElementById('whatsappSupportLink').href = `https://wa.me/?text=${supportMsg}`;
+    }
+
+    document.getElementById('payAmtInput').addEventListener('input', updateWhatsAppLinks);
+
+    function updateBalUI() {
+      document.getElementById('userBal').innerText = userBalance.toFixed(2);
+      document.getElementById('tradeBal').innerText = userBalance.toFixed(2);
+      updateDatabaseBalance();
+    }
+
+    function openTradingTerminal() {
+      document.getElementById('tradingModal').style.display = 'flex';
+      setTimeout(() => {
+        resizeChartCanvas();
+        initCandles();
+        startTradingLoop();
+      }, 100);
+    }
+
+    function closeTradingTerminal() {
+      document.getElementById('tradingModal').style.display = 'none';
+    }
+
+    const canvas = document.getElementById('tradeCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeChartCanvas() {
+      if (!canvas.parentElement) return;
+      canvas.width = canvas.parentElement.clientWidth;
+      canvas.height = canvas.parentElement.clientHeight;
+    }
+    window.addEventListener('resize', resizeChartCanvas);
+
+    function initCandles() {
+      candles = [];
+      let baseP = 31250.0;
+      for(let i=0; i<18; i++) {
+        let open = baseP + (Math.random() * 25 - 12);
+        let close = open + (Math.random() * 40 - 20);
+        let high = Math.max(open, close) + Math.random() * 15;
+        let low = Math.min(open, close) - Math.random() * 15;
+        candles.push({ open, close, high, low });
+        baseP = close;
+      }
+      currentPrice = baseP;
+    }
+
+    let chartLoop = null;
+    let candleTimer = 0;
+
+    function startTradingLoop() {
+      if (chartLoop) clearInterval(chartLoop);
+      chartLoop = setInterval(() => {
+        let change = (Math.random() * 10 - 4.6);
+        currentPrice += change;
+        document.getElementById('priceTag').innerText = currentPrice.toFixed(2);
+
+        let last = candles[candles.length - 1];
+        last.close = currentPrice;
+        if (currentPrice > last.high) last.high = currentPrice;
+        if (currentPrice < last.low) last.low = currentPrice;
+
+        candleTimer++;
+        if (candleTimer >= 6) {
+          candleTimer = 0;
+          let newOpen = last.close;
+          let newClose = newOpen + (Math.random() * 40 - 20);
+          let newHigh = Math.max(newOpen, newClose) + Math.random() * 15;
+          let newLow = Math.min(newOpen, newClose) - Math.random() * 15;
+          candles.push({ open: newOpen, close: newClose, high: newHigh, low: newLow });
+          if (candles.length > 22) candles.shift();
+        }
+
+        drawCandles();
+      }, 800);
+
+      setInterval(() => {
+        let randomPattern = patternsList[Math.floor(Math.random() * patternsList.length)];
+        document.getElementById('patternTag').innerText = 'Pattern: ' + randomPattern;
+      }, 5000);
+    }
+
+    function drawCandles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+      for(let x=0; x<canvas.width; x+=30) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,canvas.height); ctx.stroke(); }
+      for(let y=0; y<canvas.height; y+=30) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(canvas.width,y); ctx.stroke(); }
+
+      let candleWidth = canvas.width / 22;
+      let minP = Math.min(...candles.map(c => c.low));
+      let maxP = Math.max(...candles.map(c => c.high));
+      let range = (maxP - minP) || 1;
+
+      candles.forEach((c, idx) => {
+        let x = idx * candleWidth + 10;
+        let yHigh = canvas.height - ((c.high - minP) / range) * (canvas.height - 30) - 15;
+        let yLow = canvas.height - ((c.low - minP) / range) * (canvas.height - 30) - 15;
+        let yOpen = canvas.height - ((c.open - minP) / range) * (canvas.height - 30) - 15;
+        let yClose = canvas.height - ((c.close - minP) / range) * (canvas.height - 15) - 15;
+
+        let isGreen = c.close >= c.open;
+        ctx.strokeStyle = isGreen ? '#10b981' : '#ef4444';
+        ctx.fillStyle = isGreen ? '#10b981' : '#ef4444';
+
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(x, yHigh); ctx.lineTo(x, yLow); ctx.stroke();
+
+        let bodyY = Math.min(yOpen, yClose);
+        let bodyH = Math.max(Math.abs(yOpen - yClose), 2);
+        ctx.fillRect(x - candleWidth/3, bodyY, candleWidth*2/3, bodyH);
+      });
+    }
+
+    let activeTradeInterval = null;
+
+    function executeTrade(direction) {
+      let amt = parseFloat(document.getElementById('tradeAmtInput').value);
+      if (userBalance < amt) {
+        alert('Balance insufficient hai! Kripya WhatsApp ke through deposit karein.');
+        openPaymentModal();
+        return;
+      }
+
+      userBalance -= amt;
+      updateBalUI();
+
+      document.getElementById('tradeActionBtns').style.display = 'none';
+      let statusBox = document.getElementById('activeTradeStatus');
+      statusBox.style.display = 'block';
+      document.getElementById('liveDir').innerText = direction;
+      document.getElementById('liveAmt').innerText = amt;
+
+      let timeLeft = 60;
+      let timerSpan = document.getElementById('tradeTimerCount');
+      timerSpan.innerText = timeLeft;
+
+      let entryPrice = currentPrice;
+      let pnlElem = document.getElementById('livePnlVal');
+
+      if (activeTradeInterval) clearInterval(activeTradeInterval);
+
+      activeTradeInterval = setInterval(() => {
+        timeLeft--;
+        timerSpan.innerText = timeLeft;
+
+        let priceDiff = currentPrice - entryPrice;
+        let currentPnl = (direction === 'UP') ? priceDiff * (amt / 50) : -priceDiff * (amt / 50);
+
+        if (currentPln >= 0) {
+          pnlElem.style.color = '#10b981';
+          pnlElem.innerText = `🪙 +${currentPnl.toFixed(2)}`;
+        } else {
+          pnlElem.style.color = '#ef4444';
+          pnlElem.innerText = `🪙 ${currentPnl.toFixed(2)}`;
+        }
+
+        if (timeLeft <= 0) {
+          clearInterval(activeTradeInterval);
+          document.getElementById('tradeActionBtns').style.display = 'grid';
+          statusBox.style.display = 'none';
+
+          let exitPrice = currentPrice;
+          let isWin = (direction === 'UP' && exitPrice >= entryPrice) || (direction === 'DOWN' && exitPrice <= entryPrice);
+
+          if (isWin) {
+            let payout = amt * 1.85;
+            userBalance += payout;
+            updateBalUI();
+            alert(`🎉 Trade Won! Payout added: 🪙${payout.toFixed(2)}`);
+          } else {
+            alert(`❌ Trade Lost. Amount deducted: 🪙${amt}`);
+          }
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
