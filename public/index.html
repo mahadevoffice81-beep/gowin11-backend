@@ -1,318 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gowin11 VIP</title>
-    <style>
-        body {
-            background-color: #0b0f19;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
+// ==========================================
+// 1. SAFE LOCALSTORAGE WRAPPER
+// ==========================================
+const Storage = {
+    getItem: function(key) {
+        try {
+            return localStorage.getItem(key);
+        } catch (e) {
+            return window._memoryStore ? window._memoryStore[key] : null;
         }
-        .header {
-            background: #121826;
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #f3ba2f;
+    },
+    setItem: function(key, value) {
+        try {
+            localStorage.setItem(key, value);
+        } catch (e) {
+            if (!window._memoryStore) window._memoryStore = {};
+            window._memoryStore[key] = value;
         }
-        .logo-area {
-            font-weight: bold;
-            font-size: 18px;
-            color: #ff4d4d;
+    }
+};
+
+// ==========================================
+// 2. VARIABLE INITIALIZATIONS
+// ==========================================
+let isDemoUser = false;
+let currentUser = null;
+let registeredUsers = JSON.parse(Storage.getItem('gowin_registered_users') || '[]');
+
+// ==========================================
+// 3. AUTHENTICATION & LOGIN SYSTEM
+// ==========================================
+function handleUserAuth(identifier, password, type = 'mobile') {
+    identifier = identifier.trim();
+    password = password.trim();
+
+    let existingUser = registeredUsers.find(u => u.identifier === identifier && u.type === type);
+
+    if (existingUser) {
+        if (existingUser.password === password) {
+            currentUser = existingUser;
+            Storage.setItem('gowin_current_user', JSON.stringify(currentUser));
+            loadUserDashboard(currentUser);
+            return { success: true, message: "Login successful!" };
+        } else {
+            return { success: false, message: "Incorrect password! Please try again or use Forgot Password." };
         }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-coupon {
-            background: #1f293d;
-            border: 1px solid #f3ba2f;
-            color: #f3ba2f;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .wallet-box {
-            background: #1f293d;
-            border: 1px solid #374151;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 13px;
-        }
-        .btn-logout {
-            background: #dc2626;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-        }
-        .container {
-            padding: 15px;
-        }
-        .user-card {
-            background: #161e2e;
-            border: 1px solid #2d3748;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .user-info h4 {
-            margin: 0 0 5px 0;
-            font-size: 16px;
-        }
-        .user-info p {
-            margin: 0;
-            font-size: 12px;
-            color: #9ca3af;
-        }
-        .user-actions {
-            display: flex;
-            gap: 8px;
-        }
-        .btn-action {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 6px 10px;
-            border-radius: 5px;
-            font-size: 11px;
-            cursor: pointer;
-        }
-        .btn-support {
-            background: #059669;
-        }
-        .banner-card {
-            background: linear-gradient(135deg, #1e1b4b, #311026);
-            border: 1px solid #f3ba2f;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .banner-card h3 {
-            color: #f3ba2f;
-            margin-top: 0;
-        }
-        .btn-launch {
-            background: #f3ba2f;
-            color: #000;
-            font-weight: bold;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .section-title {
-            font-size: 14px;
-            color: #9ca3af;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-        .game-card {
-            background: #161e2e;
-            border: 1px solid #2d3748;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .game-card:hover {
-            border-color: #f3ba2f;
-        }
-        .game-card h4 {
-            margin: 0 0 8px 0;
-            color: #fff;
-        }
-        .game-btn {
-            background: #1f293d;
-            color: #f3ba2f;
-            border: 1px solid #374151;
-            padding: 8px;
-            width: 100%;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+    } else {
+        let newUser = {
+            uid: '#GW' + Math.floor(100000 + Math.random() * 900000),
+            identifier: identifier,
+            password: password,
+            type: type,
+            balance: 200.00,
+            username: (type === 'mobile' ? 'MobileUser_' : 'EmailUser_') + Math.floor(1000 + Math.random() * 9000)
+        };
+
+        registeredUsers.push(newUser);
+        Storage.setItem('gowin_registered_users', JSON.stringify(registeredUsers));
         
-        .utility-bar {
-            text-align: center;
-            margin: 20px 0;
+        currentUser = newUser;
+        Storage.setItem('gowin_current_user', JSON.stringify(currentUser));
+        
+        loadUserDashboard(currentUser);
+        return { success: true, message: "Account created and logged in successfully!" };
+    }
+}
+
+function handleForgotPassword(identifier, type = 'mobile') {
+    identifier = identifier.trim();
+    let existingUser = registeredUsers.find(u => u.identifier === identifier && u.type === type);
+
+    if (existingUser) {
+        return { 
+            success: true, 
+            message: `OTP sent to your ${type === 'mobile' ? 'Mobile Number' : 'Gmail'}. Your password is: ${existingUser.password}` 
+        };
+    } else {
+        return { success: false, message: "This identifier is not registered with us!" };
+    }
+}
+
+function resetPassword(identifier, newPassword, type = 'mobile') {
+    let userIndex = registeredUsers.findIndex(u => u.identifier === identifier && u.type === type);
+    if (userIndex !== -1) {
+        registeredUsers[userIndex].password = newPassword;
+        Storage.setItem('gowin_registered_users', JSON.stringify(registeredUsers));
+        return { success: true, message: "Password updated successfully! Please login." };
+    }
+    return { success: false, message: "User not found." };
+}
+
+// ==========================================
+// 4. UI & DASHBOARD LOADER
+// ==========================================
+function loadUserDashboard(user) {
+    isDemoUser = false;
+    
+    const usernameElement = document.querySelector('.username-display');
+    const uidElement = document.querySelector('.uid-display');
+    const balanceElement = document.querySelector('.balance-display');
+
+    if (usernameElement) usernameElement.innerText = user.username;
+    if (uidElement) uidElement.innerText = `UID: ${user.uid}`;
+    if (balanceElement) balanceElement.innerText = `${user.balance.toFixed(2)}`;
+}
+
+// Auto-login check on page load
+window.addEventListener('DOMContentLoaded', () => {
+    try {
+        const savedUser = Storage.getItem('gowin_current_user');
+        if (savedUser) {
+            currentUser = JSON.parse(savedUser);
+            loadUserDashboard(currentUser);
         }
-        .btn-settings {
-            background: #374151;
-            color: #fff;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: #161e2e;
-            border: 1px solid #f3ba2f;
-            padding: 20px;
-            border-radius: 12px;
-            width: 85%;
-            max-width: 320px;
-            text-align: center;
-        }
-        .modal-content h3 {
-            margin-top: 0;
-            color: #f3ba2f;
-        }
-        .modal-content input {
-            width: 100%;
-            padding: 8px;
-            margin: 10px 0;
-            background: #0b0f19;
-            border: 1px solid #374151;
-            color: #fff;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .modal-buttons button {
-            flex: 1;
-            padding: 8px;
-            border-radius: 5px;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .btn-confirm { background: #25D366; color: #fff; }
-        .btn-close { background: #374151; color: #fff; }
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <div class="logo-area">🚀 Gowin11 VIP</div>
-        <div class="header-right">
-            <button class="btn-coupon" onclick="openModal('couponModal')">🎟️ Coupon / Pay</button>
-            <div class="wallet-box">🪙 0.00 +</div>
-            <button class="btn-logout" onclick="alert('Logged out successfully!')">Logout</button>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="user-card">
-            <div class="user-info">
-                <h4>MobileUser_4902</h4>
-                <p>UID: #GW705417</p>
-            </div>
-            <div class="user-actions">
-                <button class="btn-action" onclick="alert('Details Copied!')">Copy Details</button>
-                <button class="btn-action btn-support" onclick="alert('Redirecting to Support...')">Support</button>
-            </div>
-        </div>
-
-        <div class="banner-card">
-            <h3>📈 HARSHAD MEHTA MARKET</h3>
-            <p style="font-size: 12px; color: #cbd5e1;">Live 1-Minute Binary Speed Trading with Professional Candlestick Patterns!</p>
-            <button class="btn-launch" onclick="alert('Launching Trading Terminal...')">LAUNCH TRADING TERMINAL</button>
-        </div>
-
-        <div class="utility-bar">
-            <button class="btn-settings" onclick="openModal('limitModal')">⚙️ Account Limits & Safety</button>
-        </div>
-
-        <div class="section-title">Multiplayer & Casino Games Lobby</div>
-
-        <div class="game-card">
-            <h4 style="color: #ff4d4d;">AviatorX VIP</h4>
-            <button class="game-btn" onclick="alert('Loading AviatorX Crash Game...')">PLAY CRASH GAME</button>
-        </div>
-
-        <div class="game-card">
-            <h4 style="color: #fbbf24;">Mines Pro</h4>
-            <button class="game-btn" onclick="alert('Loading Mines Pro...')">PLAY MINES</button>
-        </div>
-
-        <div class="game-card">
-            <h4 style="color: #a855f7;">Dragon vs Tiger</h4>
-            <button class="game-btn" onclick="alert('Loading Live Table...')">PLAY LIVE TABLE</button>
-        </div>
-
-        <div class="game-card">
-            <h4 style="color: #22c55e;">Color Prediction</h4>
-            <button class="game-btn" onclick="alert('Loading Win Go...')">PLAY WIN GO</button>
-        </div>
-    </div>
-
-    <!-- Coupon / WhatsApp Pay Modal -->
-    <div id="couponModal" class="modal-overlay">
-        <div class="modal-content">
-            <h3>WhatsApp Deposit / Pay</h3>
-            <p style="font-size:12px; color:#9ca3af;">Apna WhatsApp number ya payment detail yahan dalein:</p>
-            <input type="text" id="whatsappNum" placeholder="Enter WhatsApp Number">
-            <div class="modal-buttons">
-                <button class="btn-confirm" onclick="openWhatsApp()">Connect WhatsApp</button>
-                <button class="btn-close" onclick="closeModal('couponModal')">Cancel</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Account Limit / Safety Modal -->
-    <div id="limitModal" class="modal-overlay">
-        <div class="modal-content">
-            <h3>Responsible Gaming</h3>
-            <p style="font-size:12px; color:#9ca3af;">Set daily betting limit or temporary account restriction:</p>
-            <input type="number" placeholder="Enter Max Limit Amount ($)">
-            <div class="modal-buttons">
-                <button class="btn-confirm" onclick="closeModal('limitModal'); alert('Limit Saved Successfully!');">Save Limit</button>
-                <button class="btn-close" onclick="closeModal('limitModal')">Close</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'flex';
-        }
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-        }
-        function openWhatsApp() {
-            let num = document.getElementById('whatsappNum').value;
-            if(num) {
-                window.open('https://wa.me/' + num + '?text=Hello,%20I%20want%20to%20recharge%20my%20Gowin11%20account.', '_blank');
-            } else {
-                alert('Pehle apna WhatsApp number dalein!');
-            }
-        }
-    </script>
-
-</body>
-</html>
+    } catch (e) {
+        console.log("No active session found.");
+    }
+});
