@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Gowin11 - VIP Casino & Harshad Mehta Market</title>
+  <title>Gowin11 - VIP Casino & Harshad Mehta Market 🇮🇳</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
@@ -31,7 +31,7 @@
     .stake-topbar {
       display: flex; justify-content: space-between; align-items: center; padding: 10px 0; margin-bottom: 15px;
     }
-    .stake-logo { font-size: 26px; font-weight: 900; color: #fff; font-style: italic; letter-spacing: 1px; }
+    .stake-logo { font-size: 26px; font-weight: 900; color: #fff; font-style: italic; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
     .stake-auth-btns { display: flex; gap: 8px; }
     .btn-signin { background: #1f2937; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 13px; cursor: pointer; }
     .btn-register-top { background: #2563eb; color: #fff; border: none; padding: 8px 16px; border-radius: 6px; font-weight: 800; font-size: 13px; cursor: pointer; }
@@ -39,23 +39,23 @@
     /* HERO BANNER SECTION */
     .stake-hero-card {
       background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 60%, #172554 100%);
-      border-radius: 16px; padding: 24px 16px; text-align: center; margin-bottom: 20px;
+      border-radius: 16px; padding: 24px 16px; text-align: center; margin-bottom: 15px;
       border: 1px solid rgba(59, 130, 246, 0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.6); position: relative; overflow: hidden;
     }
     .hero-graphics { font-size: 50px; margin-bottom: 10px; display: flex; justify-content: center; gap: 10px; align-items: center; }
-    .stake-hero-card h1 { font-size: 22px; font-weight: 900; color: #fff; margin-bottom: 6px; text-transform: uppercase; }
+    .stake-hero-card h1 { font-size: 21px; font-weight: 900; color: #fff; margin-bottom: 6px; text-transform: uppercase; }
     .stake-hero-card p { font-size: 12px; color: #94a3b8; margin-bottom: 16px; }
 
     .btn-hero-register {
       width: 100%; background: #2563eb; color: #fff; border: none; padding: 14px; border-radius: 8px;
       font-size: 15px; font-weight: 900; text-transform: uppercase; cursor: pointer; box-shadow: 0 4px 15px rgba(37,99,235,0.4);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
-    .continue-divider { font-size: 11px; color: #64748b; margin-bottom: 12px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; text-align: center; }
+    .continue-divider { font-size: 11px; color: #64748b; margin-bottom: 10px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; text-align: center; }
 
     /* SOCIAL & LOGIN BUTTONS GRID */
-    .social-login-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 20px; }
+    .social-login-grid { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 15px; }
     @media(min-width: 400px) {
       .social-login-grid { grid-template-columns: 1fr 1fr; }
     }
@@ -64,6 +64,26 @@
       font-weight: 800; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
     }
     .social-btn:hover { background: #1f2937; border-color: #4b5563; }
+
+    /* LIVE HIGH-VALUE BETS TICKER SECTION */
+    .live-ticker-section {
+      background: #111827; border: 1px solid #1f2937; border-radius: 12px; padding: 12px; margin-bottom: 15px;
+    }
+    .ticker-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 12px; font-weight: 800; color: var(--accent-gold); text-transform: uppercase; border-bottom: 1px solid #1f2937; padding-bottom: 6px; }
+    .ticker-table-head { display: grid; grid-template-columns: 1.5fr 1fr 1.2fr; font-size: 11px; color: #94a3b8; font-weight: 700; margin-bottom: 6px; text-transform: uppercase; }
+    .ticker-list { display: flex; flex-direction: column; gap: 6px; max-height: 140px; overflow: hidden; }
+    .ticker-row-item { display: grid; grid-template-columns: 1.5fr 1fr 1.2fr; font-size: 12px; font-weight: 700; background: #0b0f19; padding: 6px 8px; border-radius: 6px; align-items: center; border: 1px solid #1e293b; animation: fadeInRow 0.3s ease-in-out; }
+
+    @keyframes fadeInRow {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* FOOTER & TRANSLATION SECTION */
+    .site-footer { text-align: center; padding: 10px 0 20px 0; border-top: 1px solid #1f2937; margin-top: auto; }
+    .footer-social-icons { display: flex; justify-content: center; gap: 15px; margin-bottom: 10px; color: #94a3b8; font-size: 18px; }
+    .footer-copy { font-size: 11px; color: #64748b; margin-bottom: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .lang-dropdown-box { display: inline-flex; align-items: center; background: #111827; border: 1px solid #374151; padding: 6px 12px; border-radius: 8px; color: #fff; font-weight: 800; font-size: 12px; gap: 6px; cursor: pointer; }
 
     /* AUTH MODAL POPUP */
     #authModalOverlay {
@@ -99,7 +119,7 @@
       background: #101622; border-bottom: 2px solid var(--accent-gold); padding: 10px 14px;
       display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100;
     }
-    .brand-logo { font-size: 16px; font-weight: 800; color: var(--accent-gold); letter-spacing: 1px; }
+    .brand-logo { font-size: 16px; font-weight: 800; color: var(--accent-gold); letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
     
     .header-right-group { display: flex; align-items: center; gap: 8px; }
     .bal-badge { background: #090d16; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 5px 10px; border-radius: 6px; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 4px; }
@@ -213,7 +233,7 @@
   <!-- LANDING & LOGIN PAGE -->
   <div id="loginScreen">
     <div class="stake-topbar">
-      <div class="stake-logo">Gowin11</div>
+      <div class="stake-logo">Gowin11 <span>🇮🇳</span></div>
       <div class="stake-auth-btns">
         <button class="btn-signin" onclick="openAuthModal('signin')">Sign In</button>
         <button class="btn-register-top" onclick="openAuthModal('register')">Register</button>
@@ -223,7 +243,7 @@
     <div class="stake-hero-card">
       <div class="hero-graphics">🏀 💎 🎲</div>
       <h1>World's Largest Online Casino & Sportsbook</h1>
-      <p>Experience High-Speed Pro Gaming & Harshad Mehta Market</p>
+      <p>Experience High-Speed Pro Gaming & Harshad Mehta Market 🇮🇳</p>
       <button class="btn-hero-register" onclick="openAuthModal('register')">Register / Account ID</button>
       
       <div class="continue-divider">Or Quick Access</div>
@@ -240,6 +260,37 @@
         </button>
       </div>
     </div>
+
+    <!-- LIVE HIGH-VALUE BETS TICKER SECTION (Changes every second with large amounts) -->
+    <div class="live-ticker-section">
+      <div class="ticker-header">
+        <span>⚡ Live High-Stakes Bets & Payouts</span>
+        <span style="color:var(--accent-green); font-size:10px;">● Live Feed 🇮🇳</span>
+      </div>
+      <div class="ticker-table-head">
+        <span>Game</span>
+        <span>User</span>
+        <span style="text-align:right;">Payout</span>
+      </div>
+      <div class="ticker-list" id="liveTickerList">
+        <!-- Populated via JS script -->
+      </div>
+    </div>
+
+    <!-- PROFESSIONAL FOOTER WITH TRANSLATION & INDIA FLAG -->
+    <footer class="site-footer">
+      <div class="footer-social-icons">
+        <span>📰</span> <span>💬</span> <span>🌐</span> <span>📸</span> <span>▶️</span> <span>✈️</span>
+      </div>
+      <div class="footer-copy"><span>© 2026 Gowin11.com | All Rights Reserved.</span> <span>🇮🇳</span></div>
+      <div>
+        <select class="lang-dropdown-box" id="langSelector">
+          <option value="en">🌐 English</option>
+          <option value="hi">🌐 Hindi (हिंदी)</option>
+          <option value="bn">🌐 Bengali (বাংলা)</option>
+        </select>
+      </div>
+    </footer>
   </div>
 
   <!-- AUTH MODAL POPUP -->
@@ -262,7 +313,7 @@
   <!-- PAYMENT & COUPON MODAL -->
   <div id="paymentModal">
     <div class="payment-modal-box">
-      <div style="font-size:18px; font-weight:900; color:var(--accent-gold); margin-bottom:4px;">💳 Coupon & Payments</div>
+      <div style="font-size:18px; font-weight:900; color:var(--accent-gold); margin-bottom:4px;">💳 Coupon & Payments 🇮🇳</div>
       <div style="font-size:12px; color:#94a3b8; margin-bottom:14px;">Manage coins instantly via WhatsApp support</div>
       
       <div class="pay-tab-row">
@@ -272,7 +323,7 @@
 
       <div class="input-group">
         <label class="input-label" id="payAmtLabel">Enter Deposit Amount (Coins) *</label>
-        <input type="number" id="payAmtInput" class="login-input" value="500">
+        <input type="number" id="payAmtInput" class="login-input" value="1000">
       </div>
 
       <a id="whatsappPayLink" href="https://wa.me/?text=Hello" target="_blank" style="text-decoration:none;">
@@ -288,7 +339,7 @@
   <!-- GAMES DASHBOARD LOBBY -->
   <div id="dashboardApp">
     <header class="app-header">
-      <div class="brand-logo">🚀 Gowin11 VIP</div>
+      <div class="brand-logo">🚀 Gowin11 VIP <span>🇮🇳</span></div>
       <div class="header-right-group">
         <button class="coupon-payment-btn" onclick="openPaymentModal()">
           <span class="material-icons" style="font-size:14px; color:var(--accent-gold);">local_activity</span> Coupon / Pay
@@ -325,7 +376,7 @@
       </div>
 
       <div class="harshad-banner" onclick="launchGame('harshad')">
-        <h2>📈 Harshad Mehta Market</h2>
+        <h2>📈 Harshad Mehta Market 🇮🇳</h2>
         <p>Live 1-Minute Binary Speed Trading with Professional Candlestick Patterns!</p>
         <button class="btn-enter-market">Launch Trading Terminal</button>
       </div>
@@ -373,7 +424,7 @@
     <div class="trade-topbar">
       <div style="display:flex; align-items:center; gap:8px;">
         <span class="material-icons" style="cursor:pointer;" onclick="closeTradingTerminal()">arrow_back</span>
-        <span class="market-title-head">📈 Harshad Mehta Market (VIP TERMINAL)</span>
+        <span class="market-title-head">📈 Harshad Mehta Market (VIP TERMINAL 🇮🇳)</span>
       </div>
       <div style="font-size:14px; font-weight:800; color:var(--accent-gold);">🪙 <span id="tradeBal">0.00</span></div>
     </div>
@@ -393,7 +444,7 @@
 
         <div class="amount-input-row">
           <span style="color:#94a3b8; font-weight:700; font-size:13px;">🪙</span>
-          <input type="number" id="tradeAmtInput" class="trade-amt-field" value="20">
+          <input type="number" id="tradeAmtInput" class="trade-amt-field" value="1000">
         </div>
 
         <div class="action-buttons-grid" id="tradeActionBtns">
@@ -402,7 +453,7 @@
         </div>
 
         <div id="activeTradeStatus">
-          <div>Trade Direction: <span id="liveDir" style="color:var(--accent-gold);">UP</span> | Invested: 🪙<span id="liveAmt">20</span></div>
+          <div>Trade Direction: <span id="liveDir" style="color:var(--accent-gold);">UP</span> | Invested: 🪙<span id="liveAmt">1000</span></div>
           <div style="margin-top:4px;">Live P&L: <span id="livePnlVal" style="color:var(--accent-green);">🪙 +0.00</span></div>
           <div style="margin-top:4px; font-size:11px; color:#94a3b8;">Time remaining: <span id="tradeTimerCount">60</span>s</div>
         </div>
@@ -411,10 +462,9 @@
   </div>
 
   <script>
-    // Load registered users from localStorage or default
     let defaultUsers = [
       { gmail: "rahul@gmail.com", username: "Rahul Sharma", pass: "12345", uid: "#GW984210", balance: 0.00 },
-      { gmail: "admin@gowin11.com", username: "MasterAdmin", pass: "admin999", uid: "#GW100001", balance: 1000.00 }
+      { gmail: "admin@gowin11.com", username: "MasterAdmin", pass: "admin999", uid: "#GW100001", balance: 10000.00 }
     ];
 
     let registeredUsers = JSON.parse(localStorage.getItem('gowin11_users')) || defaultUsers;
@@ -430,8 +480,71 @@
     let candles = [];
     let patternsList = ['Bullish Hammer 🔨', 'Bullish Engulfing 🟢', 'Doji Star ➕', 'Bearish Engulfing 🔴', 'Morning Star ⭐', 'Three White Soldiers 📈'];
 
+    // High-Stakes Live Ticker Pool (Amounts ranging from ₹1,000 to ₹1,50,000+)
+    let tickerGamesPool = [
+      { name: "Harshad Mehta Market", icon: "📈" },
+      { name: "AviatorX VIP", icon: "✈" },
+      { name: "Mines Pro", icon: "💣" },
+      { name: "Dragon vs Tiger", icon: "🐉" },
+      { name: "Color Prediction", icon: "🟢" },
+      { name: "Blackjack VIP", icon: "🃏" },
+      { name: "Sweet Bonanza", icon: "🍬" }
+    ];
+
+    let sampleUsernamesPool = [
+      "Rahul_King_99", "Amit_VIP_777", "Vikram_Trader", "Priya_Queen", "Deepak_Highroller", 
+      "Rohit_Mumbai", "Sneha_Delhi", "Karan_Gupta", "Sahil_Bhai", "Vikas_Pro", "Ajay_Singh", "Manish_77"
+    ];
+
+    function initLiveTicker() {
+      let tickerContainer = document.getElementById('liveTickerList');
+      if(!tickerContainer) return;
+
+      // Generate 5 initial live high-value rows
+      for(let i=0; i<5; i++) {
+        appendTickerRow(tickerContainer, true);
+      }
+
+      // Fast interval to change live bets constantly (Har pal change)
+      setInterval(() => {
+        if(tickerContainer.children.length > 5) {
+          tickerContainer.removeChild(tickerContainer.lastChild);
+        }
+        appendTickerRow(tickerContainer, false);
+      }, 1500); // Har 1.5 seconds mein naya bet aayega
+    }
+
+    function appendTickerRow(container, isInit) {
+      let randGame = tickerGamesPool[Math.floor(Math.random() * tickerGamesPool.length)];
+      let randUser = sampleUsernamesPool[Math.floor(Math.random() * sampleUsernamesPool.length)];
+      let isWin = Math.random() > 0.3; // 70% win entries
+      
+      // Generating large amounts (e.g., 1,000 to 1,50,000)
+      let rawAmt = Math.random() > 0.4 ? (Math.random() * 85000 + 5000) : (Math.random() * 4500 + 800);
+      let amt = rawAmt.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      
+      let payoutColor = isWin ? '#10b981' : '#ef4444';
+      let payoutPrefix = isWin ? '+' : '-';
+
+      let row = document.createElement('div');
+      row.className = 'ticker-row-item';
+      row.innerHTML = `
+        <span style="color:#fff; display:flex; align-items:center; gap:4px;"><span>${randGame.icon}</span> ${randGame.name}</span>
+        <span style="color:#94a3b8;">${randUser}</span>
+        <span style="text-align:right; color:${payoutColor}; font-weight:900;">🪙 ${payoutPrefix}${amt}</span>
+      `;
+      
+      if(isInit) {
+        container.appendChild(row);
+      } else {
+        container.insertBefore(row, container.firstChild);
+      }
+    }
+
     // Auto-login check when app starts
     window.addEventListener('DOMContentLoaded', () => {
+      initLiveTicker();
+
       let savedSession = localStorage.getItem('gowin11_active_session');
       if (savedSession) {
         let sessionData = JSON.parse(savedSession);
@@ -441,7 +554,6 @@
         isDemoUser = sessionData.isDemo;
         userBalance = sessionData.balance;
 
-        // Sync balance from user database if real user
         if (!isDemoUser) {
           let foundUser = registeredUsers.find(u => u.gmail === currentUserEmail);
           if (foundUser) {
@@ -522,7 +634,7 @@
       currentUserName = "DemoPlayer_" + Math.floor(Math.random() * 900 + 100);
       currentUID = generateUniqueUID();
       currentUserEmail = "demo@gowin11.com";
-      userBalance = 200.00; // Demo gets 200 coins
+      userBalance = 5000.00;
       saveActiveSession();
       updateProfileUI();
       completeLoginToDashboard();
@@ -605,7 +717,7 @@
           </div>
         `;
       } else if(type === 'mobile') {
-        document.getElementById('modalTitle').innerText = 'Mobile Number & OTP Login';
+        document.getElementById('modalTitle').innerText = 'Mobile Number & OTP Login 🇮🇳';
         document.getElementById('modalSub').innerText = 'Enter your 10-digit number for instant OTP verification';
         
         contentDiv.innerHTML = `
@@ -914,7 +1026,7 @@
     }
 
     function updateWhatsAppLinks() {
-      let amt = document.getElementById('payAmtInput').value || '500';
+      let amt = document.getElementById('payAmtInput').value || '1000';
       let tagText = isDemoUser ? " [DEMO]" : "";
       let payMsg = `Hello Gowin11 Support,%0AI want to ${activePayTab.toUpperCase()} ${amt} coins.%0A👤 Name: ${currentUserName}${tagText}%0A🆔 UID: ${currentUID}`;
       document.getElementById('whatsappPayLink').href = `https://wa.me/?text=${payMsg}`;
