@@ -179,7 +179,7 @@
 
     .lobby-section-title { font-size: 14px; font-weight: 800; color: var(--accent-gold); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
     
-    /* ORIGINAL GAMES GRID (EXACTLY MATCHING USER SCREENSHOT) */
+    /* ORIGINAL GAMES GRID */
     .games-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; }
     @media(max-width: 600px) {
       .games-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
@@ -250,6 +250,13 @@
     .btn-call { background: var(--accent-green); border: none; border-radius: 12px; color: #fff; padding: 14px; font-size: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
     .btn-put { background: var(--trade-red); border: none; border-radius: 12px; color: #fff; padding: 14px; font-size: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
     #activeTradeStatus { display: none; background: #1e1b4b; border: 1px solid var(--accent-gold); border-radius: 10px; padding: 12px; text-align: center; margin-top: 10px; font-size: 13px; font-weight: 800; }
+
+    /* DICE GAME MODAL STYLES */
+    #diceGameModal {
+      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #07090e; z-index: 9999; flex-direction: column; overflow-y: auto;
+    }
+    .dice-game-container { max-width: 480px; margin: 20px auto; width: 100%; padding: 15px; }
+    .dice-card { background: #121620; border: 1px solid #273043; border-radius: 16px; padding: 20px; text-align: center; }
   </style>
 </head>
 <body>
@@ -280,7 +287,7 @@
           <span class="material-icons" style="font-size:16px; color:#38bdf8;">phone_iphone</span> Mobile + OTP ID
         </button>
         <button class="social-btn" style="grid-column: span 2;" onclick="loginAsDemoDirectly()">
-          <span class="material-icons" style="font-size:16px; color:var(--accent-gold);">sports_esports</span> Demo Login (200 Coins)
+          <span class="material-icons" style="font-size:16px; color:var(--accent-gold);">sports_esports</span> Demo Login (5000 Coins)
         </button>
       </div>
     </div>
@@ -358,7 +365,7 @@
     </div>
   </div>
 
-  <!-- GAMES DASHBOARD LOBBY (MATCHING USER SCREENSHOT EXACTLY) -->
+  <!-- GAMES DASHBOARD LOBBY -->
   <div id="dashboardApp">
     <header class="app-header">
       <div class="brand-logo">Gowin11 VIP <span>🇮🇳</span></div>
@@ -373,7 +380,7 @@
 
     <div class="main-wrapper">
       
-      <!-- TOP CASINO & SPORTS BANNER CARDS (FROM SCREENSHOT) -->
+      <!-- TOP CASINO & SPORTS BANNER CARDS -->
       <div class="top-cat-grid">
         <div class="cat-banner-card" onclick="launchGame('casino_lobby')">
           <div class="cat-banner-title">Casino</div>
@@ -419,7 +426,7 @@
 
       <div class="lobby-section-title">Original Games</div>
 
-      <!-- ORIGINAL GAMES GRID (EXACTLY MATCHING USER SCREENSHOT) -->
+      <!-- ORIGINAL GAMES GRID -->
       <div class="games-grid">
         <div class="game-card-item" onclick="launchGame('dice')">
           <div class="game-card-thumb" style="background: radial-gradient(circle, #22153b 0%, #121620 100%);">
@@ -490,6 +497,32 @@
     </div>
   </div>
 
+  <!-- DICE GAME MODAL (INTEGRATED) -->
+  <div id="diceGameModal">
+    <div class="trade-topbar">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span class="material-icons" style="cursor:pointer;" onclick="closeDiceGame()">arrow_back</span>
+        <span class="market-title-head">🎲 Gowin11 VIP Dice Game</span>
+      </div>
+      <div style="font-size:14px; font-weight:800; color:var(--accent-gold);">🪙 <span id="diceGameBal">0.00</span></div>
+    </div>
+
+    <div class="dice-game-container">
+      <div class="dice-card">
+        <div style="font-size:60px; margin-bottom:15px;" id="diceDisplayEmoji">🎲</div>
+        <div style="font-size:22px; font-weight:900; color:#fff; margin-bottom:5px;" id="diceResultText">Roll Under 50 to Win</div>
+        <div style="font-size:13px; color:#94a3b8; margin-bottom:20px;">Target: <span style="color:var(--accent-gold); font-weight:800;">50</span> | Multiplier: <span style="color:var(--accent-green); font-weight:800;">1.98x</span></div>
+
+        <div class="amount-input-row" style="margin-bottom:15px;">
+          <span style="color:#94a3b8; font-weight:700; font-size:13px;">🪙</span>
+          <input type="number" id="diceAmtInput" class="trade-amt-field" value="100">
+        </div>
+
+        <button class="modal-submit-btn" onclick="playDiceRoll()">Roll Dice Now 🎲</button>
+      </div>
+    </div>
+  </div>
+
   <!-- TRADING TERMINAL MODAL -->
   <div id="tradingModal">
     <div class="trade-topbar">
@@ -534,13 +567,13 @@
 
   <script>
     let defaultUsers = [
-      { gmail: "rahul@gmail.com", username: "Rahul Sharma", pass: "12345", uid: "#GW984210", balance: 0.00 },
+      { gmail: "rahul@gmail.com", username: "Rahul Sharma", pass: "12345", uid: "#GW984210", balance: 5000.00 },
       { gmail: "admin@gowin11.com", username: "MasterAdmin", pass: "admin999", uid: "#GW100001", balance: 10000.00 }
     ];
 
     let registeredUsers = JSON.parse(localStorage.getItem('gowin11_users')) || defaultUsers;
 
-    let userBalance = 0.00;
+    let userBalance = 5000.00;
     let currentUserName = "User";
     let currentUID = "#GW000000";
     let currentUserEmail = "";
@@ -623,7 +656,7 @@
         if (!isDemoUser) {
           let foundUser = registeredUsers.find(u => u.gmail === currentUserEmail);
           if (foundUser) {
-            userBalance = foundUser.balance || 0.00;
+            userBalance = foundUser.balance !== undefined ? foundUser.balance : 5000.00;
           }
         }
 
@@ -841,7 +874,7 @@
       }
 
       let newUid = generateUniqueUID();
-      let newUser = { gmail, username: uname, pass, uid: newUid, balance: 0.00 };
+      let newUser = { gmail, username: uname, pass, uid: newUid, balance: 5000.00 };
       registeredUsers.push(newUser);
       saveUsersToStorage();
 
@@ -849,7 +882,7 @@
       currentUserName = uname;
       currentUID = newUid;
       currentUserEmail = gmail;
-      userBalance = 0.00;
+      userBalance = 5000.00;
 
       saveActiveSession();
       updateProfileUI();
@@ -876,7 +909,7 @@
       currentUserName = user.username;
       currentUID = user.uid;
       currentUserEmail = user.gmail;
-      userBalance = user.balance || 0.00;
+      userBalance = user.balance !== undefined ? user.balance : 5000.00;
 
       saveActiveSession();
       updateProfileUI();
@@ -968,12 +1001,12 @@
           currentUserName = existingMobUser.username;
           currentUID = existingMobUser.uid;
           currentUserEmail = existingMobUser.gmail;
-          userBalance = existingMobUser.balance || 0.00;
+          userBalance = existingMobUser.balance !== undefined ? existingMobUser.balance : 5000.00;
         } else {
           currentUserName = "MobileUser_" + mob.slice(-4);
           currentUID = generateUniqueUID();
           currentUserEmail = mobEmail;
-          userBalance = 0.00;
+          userBalance = 5000.00;
           registeredUsers.push({ gmail: currentUserEmail, username: currentUserName, pass: "otp_user", uid: currentUID, balance: userBalance });
           saveUsersToStorage();
         }
@@ -1056,13 +1089,58 @@
       document.getElementById('authModalOverlay').style.display = 'none';
     }
 
+    /* GAME LAUNCHING ROUTING */
     function launchGame(gameName) {
       if(gameName === 'harshad') {
         openTradingTerminal();
+      } else if(gameName === 'dice') {
+        openDiceGame();
       } else if(gameName === 'casino_lobby' || gameName === 'sports_lobby') {
         alert(gameName.toUpperCase() + ' Lobby loaded successfully!');
       } else {
         alert(gameName.toUpperCase() + ' game launching successfully!');
+      }
+    }
+
+    function openDiceGame() {
+      document.getElementById('diceGameModal').style.display = 'flex';
+      document.getElementById('diceGameBal').innerText = userBalance.toFixed(2);
+    }
+
+    function closeDiceGame() {
+      document.getElementById('diceGameModal').style.display = 'none';
+    }
+
+    function playDiceRoll() {
+      let amt = parseFloat(document.getElementById('diceAmtInput').value);
+      if (userBalance < amt) {
+        alert('Balance insufficient hai! Kripya deposit karein.');
+        openPaymentModal();
+        return;
+      }
+
+      // Deduct bet from global ID balance
+      userBalance -= amt;
+      updateBalUI();
+      document.getElementById('diceGameBal').innerText = userBalance.toFixed(2);
+
+      let rollResult = Math.floor(Math.random() * 100) + 1;
+      let isWin = rollResult <= 50;
+
+      let emojiBox = document.getElementById('diceDisplayEmoji');
+      let resultTxt = document.getElementById('diceResultText');
+      emojiBox.innerText = '🎲 ' + rollResult;
+
+      if (isWin) {
+        let payout = amt * 1.98;
+        userBalance += payout;
+        updateBalUI();
+        document.getElementById('diceGameBal').innerText = userBalance.toFixed(2);
+        resultTxt.style.color = '#10b981';
+        resultTxt.innerText = `🎉 You Rolled ${rollResult} - WIN! (+🪙${payout.toFixed(2)})`;
+      } else {
+        resultTxt.style.color = '#ef4444';
+        resultTxt.innerText = `❌ You Rolled ${rollResult} - LOSS (-🪙${amt})`;
       }
     }
 
@@ -1108,6 +1186,8 @@
     function updateBalUI() {
       document.getElementById('userBal').innerText = userBalance.toFixed(2);
       document.getElementById('tradeBal').innerText = userBalance.toFixed(2);
+      let diceBalEl = document.getElementById('diceGameBal');
+      if(diceBalEl) diceBalEl.innerText = userBalance.toFixed(2);
       updateDatabaseBalance();
     }
 
@@ -1250,7 +1330,7 @@
         let priceDiff = currentPrice - entryPrice;
         let currentPnl = (direction === 'UP') ? priceDiff * (amt / 50) : -priceDiff * (amt / 50);
 
-        if (currentPln >= 0) {
+        if (currentPnl >= 0) {
           pnlElem.style.color = '#10b981';
           pnlElem.innerText = `🪙 +${currentPnl.toFixed(2)}`;
         } else {
@@ -1264,7 +1344,7 @@
           statusBox.style.display = 'none';
 
           let exitPrice = currentPrice;
-          let isWin = (direction === 'UP' && exitPrice >= entryPrice) || (direction === 'DOWN' && exitPrice <= entryPrice);
+          let isWin = (direction === 'UP' && exitPrice >= entryPrice) || (direction ===. 'DOWN' && exitPrice <= entryPrice);
 
           if (isWin) {
             let payout = amt * 1.85;
