@@ -149,7 +149,6 @@
             cursor: pointer;
         }
         
-        /* Responsible Gaming & Settings Button Style */
         .utility-bar {
             text-align: center;
             margin: 20px 0;
@@ -164,7 +163,6 @@
             font-size: 13px;
         }
 
-        /* Modal Styles */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -213,13 +211,12 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .btn-confirm { background: #f3ba2f; color: #000; }
+        .btn-confirm { background: #25D366; color: #fff; }
         .btn-close { background: #374151; color: #fff; }
     </style>
 </head>
 <body>
 
-    <!-- Header Section -->
     <div class="header">
         <div class="logo-area">🚀 Gowin11 VIP</div>
         <div class="header-right">
@@ -230,7 +227,6 @@
     </div>
 
     <div class="container">
-        <!-- User Profile Card -->
         <div class="user-card">
             <div class="user-info">
                 <h4>MobileUser_4902</h4>
@@ -242,21 +238,18 @@
             </div>
         </div>
 
-        <!-- Harshad Mehta Market Banner -->
         <div class="banner-card">
             <h3>📈 HARSHAD MEHTA MARKET</h3>
             <p style="font-size: 12px; color: #cbd5e1;">Live 1-Minute Binary Speed Trading with Professional Candlestick Patterns!</p>
             <button class="btn-launch" onclick="alert('Launching Trading Terminal...')">LAUNCH TRADING TERMINAL</button>
         </div>
 
-        <!-- Responsible Gaming / Account Limit Options -->
         <div class="utility-bar">
             <button class="btn-settings" onclick="openModal('limitModal')">⚙️ Account Limits & Safety</button>
         </div>
 
         <div class="section-title">Multiplayer & Casino Games Lobby</div>
 
-        <!-- Games List -->
         <div class="game-card">
             <h4 style="color: #ff4d4d;">AviatorX VIP</h4>
             <button class="game-btn" onclick="alert('Loading AviatorX Crash Game...')">PLAY CRASH GAME</button>
@@ -278,14 +271,14 @@
         </div>
     </div>
 
-    <!-- Coupon / Pay Modal -->
+    <!-- Coupon / WhatsApp Pay Modal -->
     <div id="couponModal" class="modal-overlay">
         <div class="modal-content">
-            <h3>Coupon / Pay</h3>
-            <p style="font-size:12px; color:#9ca3af;">Enter your payment code or coupon below:</p>
-            <input type="text" placeholder="Enter Code">
+            <h3>WhatsApp Deposit / Pay</h3>
+            <p style="font-size:12px; color:#9ca3af;">Apna WhatsApp number ya payment detail yahan dalein:</p>
+            <input type="text" id="whatsappNum" placeholder="Enter WhatsApp Number">
             <div class="modal-buttons">
-                <button class="btn-confirm" onclick="closeModal('couponModal'); alert('Applied successfully!');">Submit</button>
+                <button class="btn-confirm" onclick="openWhatsApp()">Connect WhatsApp</button>
                 <button class="btn-close" onclick="closeModal('couponModal')">Cancel</button>
             </div>
         </div>
@@ -310,6 +303,14 @@
         }
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
+        }
+        function openWhatsApp() {
+            let num = document.getElementById('whatsappNum').value;
+            if(num) {
+                window.open('https://wa.me/' + num + '?text=Hello,%20I%20want%20to%20recharge%20my%20Gowin11%20account.', '_blank');
+            } else {
+                alert('Pehle apna WhatsApp number dalein!');
+            }
         }
     </script>
 
