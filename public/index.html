@@ -1119,7 +1119,6 @@
         return;
       }
 
-      // Deduct bet from global ID balance
       userBalance -= amt;
       updateBalUI();
       document.getElementById('diceGameBal').innerText = userBalance.toFixed(2);
@@ -1344,7 +1343,7 @@
           statusBox.style.display = 'none';
 
           let exitPrice = currentPrice;
-          let isWin = (direction === 'UP' && exitPrice >= entryPrice) || (direction ===. 'DOWN' && exitPrice <= entryPrice);
+          let isWin = (direction === 'UP' && exitPrice >= entryPrice) || (direction === 'DOWN' && exitPrice <= entryPrice);
 
           if (isWin) {
             let payout = amt * 1.85;
