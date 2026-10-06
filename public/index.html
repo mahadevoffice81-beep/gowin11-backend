@@ -251,12 +251,37 @@
     .btn-put { background: var(--trade-red); border: none; border-radius: 12px; color: #fff; padding: 14px; font-size: 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; }
     #activeTradeStatus { display: none; background: #1e1b4b; border: 1px solid var(--accent-gold); border-radius: 10px; padding: 12px; text-align: center; margin-top: 10px; font-size: 13px; font-weight: 800; }
 
-    /* DICE GAME MODAL STYLES */
+    /* ADVANCED STAKE-STYLE DICE MODAL STYLES */
     #diceGameModal {
       display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #07090e; z-index: 9999; flex-direction: column; overflow-y: auto;
     }
-    .dice-game-container { max-width: 480px; margin: 20px auto; width: 100%; padding: 15px; }
-    .dice-card { background: #121620; border: 1px solid #273043; border-radius: 16px; padding: 20px; text-align: center; }
+    .dice-game-container { max-width: 480px; margin: 10px auto; width: 100%; padding: 12px; }
+    .stake-dice-card { background: #121620; border: 1px solid #273043; border-radius: 16px; padding: 16px; }
+    
+    .dice-notifier-box {
+      background: #181d28; border: 1px solid #273043; border-radius: 12px; padding: 10px 14px;
+      display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    }
+    .dice-notifier-avatar { width: 36px; height: 36px; border-radius: 50%; background: #2563eb; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; }
+    .dice-notifier-msg { font-size: 12px; font-weight: 700; color: #f87171; }
+
+    .dice-top-tabs { display: flex; background: #090d16; border-radius: 8px; padding: 4px; margin-bottom: 16px; border: 1px solid #1f2937; }
+    .dice-tab-btn { flex: 1; background: transparent; border: none; color: #94a3b8; font-size: 13px; font-weight: 800; padding: 8px; border-radius: 6px; cursor: pointer; }
+    .dice-tab-btn.active { background: #1f2937; color: #fff; }
+
+    .dice-slider-box { position: relative; margin-bottom: 16px; background: #090d16; padding: 16px; border-radius: 12px; border: 1px solid #1f2937; text-align: center; }
+    .dice-slider-range { width: 100%; accent-color: #2563eb; cursor: pointer; margin: 12px 0 6px 0; }
+    
+    .dice-stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 14px; text-align: center; }
+    .dice-stat-card { background: #090d16; border: 1px solid #1f2937; border-radius: 8px; padding: 8px; }
+    .dice-stat-label { font-size: 10px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 2px; }
+    .dice-stat-val { font-size: 13px; color: #fff; font-weight: 900; }
+
+    .dice-quick-btns { display: flex; gap: 4px; }
+    .dice-q-btn { background: #1f2937; border: 1px solid #374151; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 800; cursor: pointer; }
+    
+    .dice-history-table { margin-top: 14px; max-height: 160px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+    .dice-hist-row { display: grid; grid-template-columns: 1.5fr 1fr 1fr; font-size: 11px; font-weight: 700; background: #090d16; padding: 6px 8px; border-radius: 6px; align-items: center; border: 1px solid #1f2937; }
   </style>
 </head>
 <body>
@@ -497,7 +522,7 @@
     </div>
   </div>
 
-  <!-- DICE GAME MODAL (INTEGRATED) -->
+  <!-- ADVANCED STAKE-STYLE DICE GAME MODAL -->
   <div id="diceGameModal">
     <div class="trade-topbar">
       <div style="display:flex; align-items:center; gap:8px;">
@@ -508,17 +533,96 @@
     </div>
 
     <div class="dice-game-container">
-      <div class="dice-card">
-        <div style="font-size:60px; margin-bottom:15px;" id="diceDisplayEmoji">🎲</div>
-        <div style="font-size:22px; font-weight:900; color:#fff; margin-bottom:5px;" id="diceResultText">Roll Under 50 to Win</div>
-        <div style="font-size:13px; color:#94a3b8; margin-bottom:20px;">Target: <span style="color:var(--accent-gold); font-weight:800;">50</span> | Multiplier: <span style="color:var(--accent-green); font-weight:800;">1.98x</span></div>
-
-        <div class="amount-input-row" style="margin-bottom:15px;">
-          <span style="color:#94a3b8; font-weight:700; font-size:13px;">🪙</span>
-          <input type="number" id="diceAmtInput" class="trade-amt-field" value="100">
+      <div class="stake-dice-card">
+        
+        <!-- NOTIFIER BANNER -->
+        <div class="dice-notifier-box">
+          <div class="dice-notifier-avatar">👧</div>
+          <div class="dice-notifier-msg" id="diceNotifierText">Dar gaye kya? Loss ho gaya, firse try karo! 😈</div>
         </div>
 
-        <button class="modal-submit-btn" onclick="playDiceRoll()">Roll Dice Now 🎲</button>
+        <!-- TOP RECENT ROLLS BADGES -->
+        <div style="display:flex; gap:6px; margin-bottom:14px; overflow-x:auto;" id="diceRecentRollsBadges">
+          <div style="background:#10b981; color:#000; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:900;">84.10</div>
+          <div style="background:#1f2937; color:#fff; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:900;">53.69</div>
+          <div style="background:#1f2937; color:#fff; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:900;">25.28</div>
+          <div style="background:#1f2937; color:#fff; padding:4px 10px; border-radius:12px; font-size:11px; font-weight:900;">34.89</div>
+        </div>
+
+        <!-- SLIDER BOX -->
+        <div class="dice-slider-box">
+          <div style="position:absolute; top:10px; left:12px; font-size:11px; font-weight:800; color:#94a3b8;" id="diceRollIndicatorBadge">🎲 34.89</div>
+          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:800; color:#94a3b8; margin-top:10px;">
+            <span>0</span>
+            <span>25</span>
+            <span>50</span>
+            <span>75</span>
+            <span>100</span>
+          </div>
+          <input type="range" min="1" max="98" value="50" class="dice-slider-range" id="diceSliderInput" oninput="updateDiceCalculations()">
+        </div>
+
+        <!-- MULTIPLIER / ROLL OVER / WIN CHANCE -->
+        <div class="dice-stats-grid">
+          <div class="dice-stat-card">
+            <div class="dice-stat-label">Multiplier</div>
+            <div class="dice-stat-val" id="diceMultiplierVal">1.98x</div>
+          </div>
+          <div class="dice-stat-card">
+            <div class="dice-stat-label">Roll Over</div>
+            <div class="dice-stat-val" id="diceRollOverVal">50.00</div>
+          </div>
+          <div class="dice-stat-card">
+            <div class="dice-stat-label">Win Chance</div>
+            <div class="dice-stat-val" id="diceWinChanceVal">49.50%</div>
+          </div>
+        </div>
+
+        <!-- BET AMOUNT & QUICK MULTIPLIERS -->
+        <div style="margin-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; font-size:11px; font-weight:700; color:#94a3b8; margin-bottom:4px;">
+            <span>Bet Amount</span>
+            <div class="dice-quick-btns">
+              <button class="dice-q-btn" onclick="multiplyDiceBet(0.5)">½</button>
+              <button class="dice-q-btn" onclick="multiplyDiceBet(2)">2x</button>
+            </div>
+          </div>
+          <div class="amount-input-row" style="margin-bottom:0;">
+            <span style="color:var(--accent-gold); font-weight:900; font-size:13px;">🪙</span>
+            <input type="number" id="diceAmtInput" class="trade-amt-field" value="1.00">
+            <span style="background:#1f2937; color:#10b981; padding:2px 6px; border-radius:4px; font-size:10px; font-weight:900;">T</span>
+          </div>
+        </div>
+
+        <!-- NUMBER OF BETS (AUTO TAB PLACEHOLDER) -->
+        <div style="margin-bottom:14px;" id="numberOfBetsWrapper" style="display:none;">
+          <div style="font-size:11px; font-weight:700; color:#94a3b8; margin-bottom:4px;">Number of Bets</div>
+          <input type="number" id="diceNumBetsInput" class="login-input" value="2">
+        </div>
+
+        <!-- ROLL BUTTON -->
+        <button class="modal-submit-btn" id="diceActionBtn" onclick="playStakeDiceRoll()" style="margin-bottom:10px;">Roll Dice Now 🎲</button>
+
+        <!-- MANUAL / AUTO TABS -->
+        <div class="dice-top-tabs" style="margin-bottom:0;">
+          <button class="dice-tab-btn active" id="diceManualTabBtn" onclick="switchDiceTab('manual')">Manual</button>
+          <button class="dice-tab-btn" id="diceAutoTabBtn" onclick="switchDiceTab('auto')">Auto</button>
+        </div>
+
+        <!-- LIVE HISTORY TABLE -->
+        <div class="dice-history-table" id="diceHistoryList">
+          <div class="dice-hist-row">
+            <span style="color:#fff;">Rahul***2</span>
+            <span style="color:#f59e0b;">$10,000.00</span>
+            <span style="text-align:right; color:#ef4444; font-weight:900;">-$10,000.00</span>
+          </div>
+          <div class="dice-hist-row">
+            <span style="color:#fff;">Rohan***1</span>
+            <span style="color:#f59e0b;">$1,000.00</span>
+            <span style="text-align:right; color:#ef4444; font-weight:900;">-$1,000.00</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -1105,13 +1209,49 @@
     function openDiceGame() {
       document.getElementById('diceGameModal').style.display = 'flex';
       document.getElementById('diceGameBal').innerText = userBalance.toFixed(2);
+      updateDiceCalculations();
     }
 
     function closeDiceGame() {
       document.getElementById('diceGameModal').style.display = 'none';
     }
 
-    function playDiceRoll() {
+    function switchDiceTab(tab) {
+      let mBtn = document.getElementById('diceManualTabBtn');
+      let aBtn = document.getElementById('diceAutoTabBtn');
+      let numBetsWrap = document.getElementById('numberOfBetsWrapper');
+      
+      if(tab === 'manual') {
+        mBtn.classList.add('active');
+        aBtn.classList.remove('active');
+        if(numBetsWrap) numBetsWrap.style.display = 'none';
+      } else {
+        aBtn.classList.add('active');
+        mBtn.classList.remove('active');
+        if(numBetsWrap) numBetsWrap.style.display = 'block';
+      }
+    }
+
+    function updateDiceCalculations() {
+      let sliderVal = parseFloat(document.getElementById('diceSliderInput').value);
+      document.getElementById('diceRollOverVal').innerText = sliderVal.toFixed(2);
+      
+      // Stake formula calculation for multiplier and win chance
+      let winChance = sliderVal;
+      let multiplier = 99 / winChance;
+      
+      document.getElementById('diceWinChanceVal').innerText = winChance.toFixed(2) + '%';
+      document.getElementById('diceMultiplierVal').innerText = multiplier.toFixed(3) + 'x';
+    }
+
+    function multiplyDiceBet(factor) {
+      let amtInput = document.getElementById('diceAmtInput');
+      let currentVal = parseFloat(amtInput.value) || 1;
+      let newVal = factor === 0.5 ? Math.max(1, currentVal / 2) : currentVal * 2;
+      amtInput.value = newVal.toFixed(2);
+    }
+
+    function playStakeDiceRoll() {
       let amt = parseFloat(document.getElementById('diceAmtInput').value);
       if (userBalance < amt) {
         alert('Balance insufficient hai! Kripya deposit karein.');
@@ -1123,24 +1263,67 @@
       updateBalUI();
       document.getElementById('diceGameBal').innerText = userBalance.toFixed(2);
 
-      let rollResult = Math.floor(Math.random() * 100) + 1;
-      let isWin = rollResult <= 50;
+      let sliderVal = parseFloat(document.getElementById('diceSliderInput').value);
+      let rollResult = Math.random() * 100;
+      let isWin = rollResult <= sliderVal;
 
-      let emojiBox = document.getElementById('diceDisplayEmoji');
-      let resultTxt = document.getElementById('diceResultText');
-      emojiBox.innerText = '🎲 ' + rollResult;
+      let indicatorBadge = document.getElementById('diceRollIndicatorBadge');
+      let notifierMsg = document.getElementById('diceNotifierText');
+      
+      indicatorBadge.innerText = '🎲 ' + rollResult.toFixed(2);
+
+      let insults = [
+        "Dar gaye kya? Loss ho gaya, firse try karo! 😈",
+        "Arey yaar! Kismat kharab thi, dobara lagao! 📉",
+        "Dil chhota mat karo, agli baar pakka jeetoge! 🚀"
+      ];
 
       if (isWin) {
-        let payout = amt * 1.98;
+        let winChance = sliderVal;
+        let multiplier = 99 / winChance;
+        let payout = amt * multiplier;
         userBalance += payout;
         updateBalUI();
         document.getElementById('diceGameBal').innerText = userBalance.toFixed(2);
-        resultTxt.style.color = '#10b981';
-        resultTxt.innerText = `🎉 You Rolled ${rollResult} - WIN! (+🪙${payout.toFixed(2)})`;
+        
+        notifierMsg.style.color = '#10b981';
+        notifierMsg.innerText = `🎉 Amazing Win! Payout added: 🪙${payout.toFixed(2)}`;
+        indicatorBadge.style.color = '#10b981';
       } else {
-        resultTxt.style.color = '#ef4444';
-        resultTxt.innerText = `❌ You Rolled ${rollResult} - LOSS (-🪙${amt})`;
+        notifierMsg.style.color = '#f87171';
+        notifierMsg.innerText = insults[Math.floor(Math.random() * insults.length)];
+        indicatorBadge.style.color = '#ef4444';
       }
+
+      // Add to recent history badges
+      let badgesContainer = document.getElementById('diceRecentRollsBadges');
+      let newBadge = document.createElement('div');
+      newBadge.style.background = isWin ? '#10b981' : '#1f2937';
+      newBadge.style.color = isWin ? '#000' : '#fff';
+      newBadge.style.padding = '4px 10px';
+      newBadge.style.borderRadius = '12px';
+      newBadge.style.fontSize = '11px';
+      newBadge.style.fontWeight = '900';
+      newBadge.innerText = rollResult.toFixed(2);
+      badgesContainer.insertBefore(newBadge, badgesContainer.firstChild);
+      if(badgesContainer.children.length > 6) {
+        badgesContainer.removeChild(badgesContainer.lastChild);
+      }
+
+      // Add to table history
+      let historyList = document.getElementById('diceHistoryList');
+      let histRow = document.createElement('div');
+      histRow.className = 'dice-hist-row';
+      let formattedAmt = amt.toLocaleString('en-IN', {maximumFractionDigits: 2});
+      let payoutColor = isWin ? '#10b981' : '#ef4444';
+      let payoutText = isWin ? `+$${(amt * (99/sliderVal)).toFixed(2)}` : `-$${formattedAmt}`;
+      
+      histRow.innerHTML = `
+        <span style="color:#fff;">${currentUserName.substring(0,6)}***</span>
+        <span style="color:#f59e0b;">$${formattedAmt}</span>
+        <span style="text-align:right; color:${payoutColor}; font-weight:900;">${payoutText}</span>
+      `;
+      historyList.insertBefore(histRow, historyList.firstChild);
     }
 
     function openPaymentModal() {
